@@ -2,10 +2,20 @@ TB.nav("explore");
 const METRICS = {
   smoothed_rate: { label: "Reported TB rate", badge: ["real", "REAL"], unit: " /100k", note: "Empirical Bayes-smoothed notification rate per 100,000 (bulletins, DOSM population)." },
   gap: { label: "Hidden gap", badge: ["est", "EST"], unit: " /100k", note: "Expected minus reported rate. Score B currently shares the WHO estimate by population only." },
-  desert_level: { label: "Diagnostic desert", badge: ["est", "EST"], cat: { strong: "#e11d48", possible: "#f59e0b", none: "#cbd5e1" },
+  desert_level: { label: "Diagnostic desert", badge: ["est", "EST"], cat: { strong: "#b3382c", possible: "#c97f10", none: "#d9d5c5" },
                   note: "Points: low-high cluster + gap above median + travel above median. 3 = strong, 2 = possible." },
-  moran_quadrant: { label: "Clustering", badge: ["exp", "EXP"], cat: { HH: "#e11d48", LH: "#7c3aed", LL: "#0ea5e9", HL: "#f59e0b" },
-                    note: "Local Moran's I quadrant. Exploratory: only 10 districts. HH = high near high, LH = low near high." },
+  moran_quadrant: { label: "Clustering", badge: ["exp", "EXP"], cat: { HH: "#b3382c", LH: "#c97f10", LL: "#7fa596", HL: "#e2b4a4" },
+                    note: "Clustering asks: do districts with a lot of TB sit next to each other? (Statistical method: Local Moran's I.)" },
+};
+// Plain-language meaning of each category code
+const NAMES = {
+  HH: ["High–High", "High TB, and its neighbours are high too: part of a hotspot area."],
+  LH: ["Low–High", "Low reported TB, but its neighbours are high. Suspicious: cases may be going undetected. Counts as 1 desert point."],
+  LL: ["Low–Low", "Low TB, and its neighbours are low too: a quieter area."],
+  HL: ["High–Low", "High TB, but its neighbours are low: an isolated hotspot."],
+  strong: ["Strong desert", "3 of 3 warning signs: low-next-to-high, gap above median, travel above median."],
+  possible: ["Possible desert", "2 of 3 warning signs."],
+  none: ["No desert signal", "0–1 warning signs."],
 };
 const RAMP = ["#fff7bc", "#fec44f", "#fe9929", "#ec7014", "#cc4c02", "#8c2d04"];
 let S, GEO, GRID, map, layer, metric = "smoothed_rate", selected;
@@ -24,7 +34,8 @@ function panel(d) {
     ${row("Expected rate", TB.fmt(d.expected_rate, 1, " /100k"), ["est", "EST"])}
     ${row("Hidden gap", TB.fmt(d.gap, 1, " /100k"), ["est", "EST"])}
     ${row("Travel to clinic", TB.fmt(d.travel_min_approx, 1, " min"), ["est", "≈"])}
-    ${row("Clustering", d.moran_quadrant ? `${d.moran_quadrant} (p ${TB.fmt(d.moran_p, 2)})` : "No data", ["exp", "EXP"])}
+    ${row("Clustering", d.moran_quadrant ? `${d.moran_quadrant} · ${NAMES[d.moran_quadrant][0]}` : "No data", ["exp", "EXP"])}
+    ${d.moran_quadrant ? `<p style="font-size:12px;color:var(--muted);margin:2px 0 6px">${NAMES[d.moran_quadrant][1]} Chance level p = ${TB.fmt(d.moran_p, 2)} (below 0.05 would be convincing).</p>` : ""}
     ${row("Desert points", d.desert_points == null ? "No data" : `${d.desert_points} / 3`, ["est", "EST"])}
     <p style="font-size:12px;color:var(--muted);margin:10px 0 0">Sources: Johor epidemiological bulletins, DOSM, WHO, OpenStreetMap, WorldPop.</p>`;
 }
@@ -39,12 +50,28 @@ function style(f) {
 }
 
 let legend;
+function guide() {
+  const m = METRICS[metric], el = document.getElementById("mnote");
+  let html = `<p style="margin:0 0 10px">${m.note}</p>`;
+  if (metric === "moran_quadrant") {
+    html += `<p style="margin:0 0 10px">Each district is compared with the districts that share a border with it. The first letter is the district itself, the second is its neighbours (H = higher than the Johor average, L = lower).</p>
+      <table><thead><tr><th>Code</th><th>Means</th><th>What to read into it</th><th>Districts</th></tr></thead><tbody>` +
+      ["HH", "LH", "LL", "HL"].map((k) => `<tr><td><b>${k}</b></td><td>${NAMES[k][0]}</td><td>${NAMES[k][1]}</td><td>${S.districts.filter((d) => d.moran_quadrant === k).map((d) => d.district).join(", ") || "–"}</td></tr>`).join("") +
+      `</tbody></table><p style="margin:10px 0 0;font-size:12px">Exploratory: with only 10 districts these patterns can easily arise by chance (only Segamat has p &lt; 0.05). Treat them as hints, not proof.</p>`;
+  } else if (metric === "desert_level") {
+    html += `<table><thead><tr><th>Level</th><th>Means</th><th>Districts</th></tr></thead><tbody>` +
+      ["strong", "possible", "none"].map((k) => `<tr><td><b>${NAMES[k][0]}</b></td><td>${NAMES[k][1]}</td><td>${S.districts.filter((d) => d.desert_level === k).map((d) => d.district).join(", ") || "–"}</td></tr>`).join("") + `</tbody></table>`;
+  }
+  el.innerHTML = html;
+}
+
 function drawLegend() {
   if (legend) legend.remove();
   legend = L.control({ position: "bottomright" });
   legend.onAdd = () => {
     const div = L.DomUtil.create("div", "legend"), m = METRICS[metric];
-    if (m.cat) div.innerHTML = `<b>${m.label}</b><br>` + Object.entries(m.cat).map(([k, c]) => `<i style="background:${c}"></i>${k}`).join("<br>");
+    if (m.cat) div.innerHTML = `<b>${m.label}</b><br>` + Object.entries(m.cat).map(([k, c]) =>
+      `<i style="background:${c}"></i>${metric === "moran_quadrant" ? `<b>${k}</b> · ${NAMES[k][0]}` : NAMES[k][0]}`).join("<br>");
     else {
       const vs = S.districts.map((x) => x[metric]).filter((x) => x != null), lo = Math.min(...vs), hi = Math.max(...vs);
       div.innerHTML = `<b>${m.label}</b><br>` + RAMP.map((c, i) => `<i style="background:${c}"></i>${(lo + (hi - lo) * i / RAMP.length).toFixed(0)}+`).join("<br>");
@@ -85,9 +112,9 @@ function initMap() {
   seg.onclick = (e) => {
     const b = e.target.closest("button"); if (!b) return;
     metric = b.dataset.k; seg.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
-    layer.setStyle(style); drawLegend(); document.getElementById("mnote").textContent = METRICS[metric].note;
+    layer.setStyle(style); drawLegend(); guide();
   };
-  document.getElementById("mnote").textContent = METRICS[metric].note;
+  guide();
   drawLegend();
   const sel = document.getElementById("dsel");
   sel.innerHTML = [...S.districts].sort((a, b) => a.district.localeCompare(b.district)).map((d) => `<option value="${d.code}">${d.district}</option>`).join("");
