@@ -15,7 +15,7 @@ const byCode = (c) => S.districts.find((d) => d.code === c);
 
 function panel(d) {
   const row = (k, v, b) => `<div class="kv"><span>${k} ${b ? `<span class="badge ${b[0]}">${b[1]}</span>` : ""}</span><b>${v}</b></div>`;
-  const act = { "portable X-ray unit": "🚐 Portable X-ray unit", "trusted-messenger campaign": "📣 Trusted-messenger campaign", monitor: "👀 Monitor" };
+  const act = { "portable X-ray unit": "Send a portable X-ray unit", "trusted-messenger campaign": "Run a trusted-messenger campaign", monitor: "Monitor" };
   document.getElementById("dpanel").innerHTML = `
     <div style="font-size:1.5rem;font-weight:800;letter-spacing:-.02em">${d.district}</div>
     <div style="margin:8px 0 10px;padding:10px 12px;border-radius:12px;background:var(--bg);font-weight:700">${act[d.action] || TB.fmt(d.action)}</div>
@@ -60,14 +60,15 @@ function select(code, fly = true) {
   if (fly) layer.eachLayer((l) => { if (l.feature.properties.code === code) map.flyToBounds(l.getBounds(), { padding: [60, 60], duration: .8 }); });
 }
 
+// No third-party tile service (no API keys): districts are drawn directly on a plain background.
 function tiles(m) {
-  const dark = document.documentElement.dataset.theme === "dark" || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
-  return L.tileLayer(`https://{s}.basemaps.cartocdn.com/${dark ? "dark_all" : "light_all"}/{z}/{x}/{y}{r}.png`,
-    { attribution: "© OpenStreetMap, © CARTO", subdomains: "abcd", maxZoom: 14 }).addTo(m);
+  m.attributionControl.setPrefix(false);
+  m.attributionControl.addAttribution("Borders: geoBoundaries · Clinics: © OpenStreetMap contributors · Population: WorldPop");
+  return { remove() {} };
 }
 
 function initMap() {
-  map = L.map("map", { zoomControl: true, scrollWheelZoom: false });
+  map = L.map("map", { zoomControl: true, scrollWheelZoom: true, zoomSnap: 0.25, minZoom: 7, maxZoom: 13 });
   let t = tiles(map);
   window.addEventListener("themechange", () => { t.remove(); t = tiles(map); });
   layer = L.geoJSON(GEO, {
@@ -134,7 +135,7 @@ function renderPlan() {
   const best = rec.length ? coverOf(rec).exp : null;  // same 5 km grid as the user's plan
   document.getElementById("p-cmp").innerHTML = ids.length && best !== null
     ? `Recommended plan with ${k} unit${k > 1 ? "s" : ""}: <b>${Math.round(best).toLocaleString()}</b> expected TB. ` +
-      (mode === "custom" ? (c.exp >= best - 0.5 ? "✅ Your plan matches or beats it." : `Your plan reaches <b>${Math.round(best - c.exp).toLocaleString()}</b> fewer.`) : "")
+      (mode === "custom" ? (c.exp >= best - 0.5 ? "Your plan matches or beats it." : `Your plan reaches <b>${Math.round(best - c.exp).toLocaleString()}</b> fewer.`) : "")
     : (mode === "custom" ? "Pick sites from the list or the map." : "");
 
   if (pLayer) pLayer.remove();
@@ -142,11 +143,11 @@ function renderPlan() {
   GRID.cells.forEach((cell, i) => {
     if (!c.covered[i]) return;
     const h = GRID.deg / 2;
-    L.rectangle([[cell[0] - h, cell[1] - h], [cell[0] + h, cell[1] + h]], { stroke: false, fillColor: "#2f7a5f", fillOpacity: Math.min(.55, .08 + cell[3] / 12) }).addTo(pLayer);
+    L.rectangle([[cell[0] - h, cell[1] - h], [cell[0] + h, cell[1] + h]], { interactive: false, stroke: false, fillColor: "#2f7a5f", fillOpacity: Math.min(.55, .08 + cell[3] / 12) }).addTo(pLayer);
   });
   const adds = marginal(ids);
   c.fac.forEach((f, i) => {
-    L.circle([f[4], f[5]], { radius: COVER() * 1000, color: "#c97f10", weight: 1.5, fillOpacity: 0, dashArray: "6 6" }).addTo(pLayer);
+    L.circle([f[4], f[5]], { interactive: false, radius: COVER() * 1000, color: "#c97f10", weight: 1.5, fillOpacity: 0, dashArray: "6 6" }).addTo(pLayer);
     L.marker([f[4], f[5]], { icon: L.divIcon({ className: "", html: `<div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1c4a3a,#2f7a5f);color:#fff;display:grid;place-items:center;font-weight:800;box-shadow:0 4px 12px rgba(28,74,58,.45);border:2px solid #fff">${i + 1}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] }) })
       .bindTooltip(`<b>${f[1]}</b><br>${f[2]} · adds ${Math.round(adds[i])} expected TB`).addTo(pLayer);
   });
@@ -154,7 +155,7 @@ function renderPlan() {
     const d = f[3] ? byCode(f[3]) : null;
     return `<tr><td>${i + 1}</td><td>${f[1]}</td><td>${f[2]}</td><td>${d ? d.district : "–"}</td><td>${Math.round(adds[i]).toLocaleString()}</td></tr>`;
   }).join("") || `<tr><td colspan="5" style="color:var(--muted)">No sites selected.</td></tr>`;
-  facLayer.eachLayer((m) => m.setStyle({ fillColor: custom.has(m.options.fid) ? "#1c4a3a" : "#a8a290", radius: custom.has(m.options.fid) ? 6 : 3.5 }));
+  facLayer.eachLayer((m) => { m.setStyle({ fillColor: custom.has(m.options.fid) ? "#1c4a3a" : "#a8a290" }); m.setRadius(custom.has(m.options.fid) ? 7 : 4); });
   renderChips();
 }
 
@@ -165,17 +166,18 @@ function renderList() {
     `<label><input type="checkbox" data-id="${f[0]}" ${custom.has(f[0]) ? "checked" : ""}> <span>${f[1]} <span style="color:var(--muted)">· ${f[2]}${f[3] ? " · " + byCode(f[3]).district : ""}</span></span></label>`).join("");
 }
 function renderChips() {
-  document.getElementById("chips").innerHTML = [...custom].map((id) => `<span class="chip" data-id="${id}">${S.facilities.find((f) => f[0] === id)[1]} ✕</span>`).join("");
+  document.getElementById("chips").innerHTML = [...custom].map((id) => `<span class="chip" data-id="${id}">${S.facilities.find((f) => f[0] === id)[1]} ×</span>`).join("");
 }
 function toggle(id) { custom.has(id) ? custom.delete(id) : custom.add(id); renderList(); renderPlan(); }
 
 function initPlanner() {
-  pmap = L.map("pmap", { scrollWheelZoom: false });
+  pmap = L.map("pmap", { scrollWheelZoom: true, zoomSnap: 0.25, minZoom: 7, maxZoom: 13 });
   let t = tiles(pmap);
   window.addEventListener("themechange", () => { t.remove(); t = tiles(pmap); });
-  const outline = L.geoJSON(GEO, { style: { color: "#64748b", weight: 1, fillOpacity: 0 } }).addTo(pmap);
+  const outline = L.geoJSON(GEO, { interactive: false, style: () => ({ color: TB.css("--line-strong"), weight: 1.2, fillColor: TB.css("--surface"), fillOpacity: 1 }) }).addTo(pmap);
   pmap.fitBounds(outline.getBounds());
-  facLayer = L.layerGroup(S.facilities.map((f) => L.circleMarker([f[4], f[5]], { fid: f[0], radius: 3.5, weight: 0, fillColor: "#a8a290", fillOpacity: .9 })
+  pmap.createPane("fac"); pmap.getPane("fac").style.zIndex = 450;  // clinic dots above coverage shading
+  facLayer = L.layerGroup(S.facilities.map((f) => L.circleMarker([f[4], f[5]], { pane: "fac", fid: f[0], radius: 4, weight: 1, color: "#fff", fillColor: "#a8a290", fillOpacity: .95 })
     .bindTooltip(`${f[1]} · ${f[2]}`).on("click", () => { if (mode !== "custom") setMode("custom"); toggle(f[0]); }))).addTo(pmap);
   document.getElementById("n").oninput = renderPlan;
   const seg = (a, b, fn) => { document.getElementById(a).onclick = () => fn(a); document.getElementById(b).onclick = () => fn(b); };

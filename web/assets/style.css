@@ -147,7 +147,8 @@ h2 { font-size: clamp(1.9rem, 3.6vw, 2.8rem); letter-spacing: -.03em; margin: 8p
 .seg button { border: 1px solid var(--line); background: var(--surface); font-size: 14px; padding: 7px 14px; }
 #map, #pmap { height: 560px; border-radius: var(--radius); border: 1px solid var(--line); }
 @media (max-width: 600px) { #map, #pmap { height: 420px; } }
-.leaflet-container { background: var(--bg-2); font-family: inherit; }
+.leaflet-container { background: color-mix(in srgb, var(--bg-2) 70%, #cfe0e6); font-family: inherit; }
+.logo svg { flex: none; border-radius: 8px; }
 .kv { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 14px; }
 .kv:last-child { border: 0; } .kv b { text-align: right; }
 select, input[type=search] { width: 100%; font: inherit; padding: 11px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }

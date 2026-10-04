@@ -3,7 +3,16 @@ const TB = {};
 TB.nav = (active) => {
   const el = document.getElementById("nav");
   el.innerHTML = `<div class="wrap">
-    <a class="logo" href="index.html"><span class="dot">TB</span><span class="t">TB Gap Finder</span></a>
+    <a class="logo" href="index.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30" height="30" role="img" aria-label="TB Gap Finder">
+  <rect width="64" height="64" rx="16" fill="#1c4a3a"/>
+  <path d="M32 12v17" stroke="#f6f4ea" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M32 26c-2 3-5 4-7 4" stroke="#f6f4ea" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M32 26c2 3 5 4 7 4" stroke="#f6f4ea" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M27.5 23.5c-3.2-3.6-8.6-4.6-11.3-.9-3.6 4.9-4.6 14.6-2.8 20.9 1.1 3.9 4.8 5.6 8.5 3.8 3.9-1.9 5.6-5.6 5.6-10.6z" fill="#f6f4ea"/>
+  <path d="M36.5 23.5c3.2-3.6 8.6-4.6 11.3-.9 3.6 4.9 4.6 14.6 2.8 20.9-1.1 3.9-4.8 5.6-8.5 3.8-3.9-1.9-5.6-5.6-5.6-10.6z" fill="#f6f4ea" fill-opacity=".45"/>
+  <circle cx="43.5" cy="38" r="5.6" fill="none" stroke="#c97f10" stroke-width="2"/>
+  <circle cx="43.5" cy="38" r="2.4" fill="#c97f10"/>
+</svg><span class="t">TB Gap Finder</span></a>
     <div class="links">
       <a href="index.html" class="${active === "home" ? "active" : ""}">Home</a>
       <a href="explore.html" class="${active === "explore" ? "active" : ""}">Explore</a>

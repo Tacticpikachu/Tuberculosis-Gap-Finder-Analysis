@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CLEAN, OUT = ROOT / "data" / "clean", ROOT / "outputs"
 NO = "No data"
 
-st.set_page_config(page_title="TB Gap Finder · Johor", page_icon="🫁", layout="wide")
+st.set_page_config(page_title="TB Gap Finder · Johor", page_icon="web/assets/logo.svg", layout="wide")
 
 st.markdown("""
 <style>
@@ -100,7 +100,7 @@ with st.sidebar:
                "WHO (incidence), OpenStreetMap (facilities), WorldPop. "
                f"Score B basis: {r.get('score_b_basis', NO)}.")
 
-tab1, tab2, tab3 = st.tabs(["🗺️  Map", "🚐  Planner", "✅  Validation & method"])
+tab1, tab2, tab3 = st.tabs(["Map", "Planner", "Validation & method"])
 
 # ---------------- tab 1: map
 with tab1:
