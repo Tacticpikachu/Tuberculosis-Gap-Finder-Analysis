@@ -180,7 +180,8 @@ def main():
         flagged = s.loc[s["above_95"], "state"].tolist()
         rows.append({"test": "V4", "metric": "level", "value": level, "pass": ""})
         rows.append({"test": "V4", "metric": "states_above_95", "value": ", ".join(flagged) or "none",
-                     "pass": "H2 supported" if flagged else "H2 not supported"})
+                     "pass": (f"{len(flagged)} flagged" if flagged else "none flagged")
+                     + ("" if level == "state" else " (district level; H2 untested)")})
         rows.append({"test": "V4", "metric": "pooled_death_ratio", "value": p0, "pass": ""})
 
     res = pd.DataFrame(rows)

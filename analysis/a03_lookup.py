@@ -122,6 +122,16 @@ def main():
     johor = adm2[adm2[name_col].isin(matched["geo_name"])].merge(
         matched, left_on=name_col, right_on="geo_name")
     johor = johor[["code", "district", "dosm_name", "geo_name", "geometry"]]
+    # Plotly/d3-geo needs clockwise exterior rings (opposite of RFC 7946); simplify for a light app
+    from shapely.geometry.polygon import orient
+    from shapely.geometry import MultiPolygon, Polygon
+
+    def clockwise(g):
+        g = g.simplify(0.001, preserve_topology=True)
+        if isinstance(g, Polygon):
+            return orient(g, sign=-1.0)
+        return MultiPolygon([orient(x, sign=-1.0) for x in g.geoms])
+    johor["geometry"] = johor.geometry.apply(clockwise)
     johor.to_file(CLEAN / "johor_districts.geojson", driver="GeoJSON")
     print(f"\nSaved data/clean/johor_districts.geojson: {len(johor)} districts, CRS {johor.crs}")
     print(f"  mys_adm2.geojson: {len(adm2)} districts in Malaysia, "
