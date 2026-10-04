@@ -1,0 +1,23 @@
+test,metric,value,pass
+V1b,bulletins parsed (both tables),174 of 182,
+V1b,district-week checks,1560,
+V1b,exact match rate,0.8865,FAIL
+V1b,mismatch mean |diff − current|,4.44,
+V9a,N=1 greedy vs brute force,2321.6 vs 2321.6,match
+V9a,N=2 greedy vs brute force,"3199.9 vs 3199.9 (79,401 pairs)",match
+V9a,verdict,,PASS
+V9b,N=1 % expected TB: greedy / district hospitals / random mean,58.3 / 55.8 / 38.5,greedy beats 99.9% of random sets
+V9b,N=2 % expected TB: greedy / district hospitals / random mean,80.3 / 73.5 / 56.8,greedy beats 100.0% of random sets
+V9b,N=3 % expected TB: greedy / district hospitals / random mean,87.8 / 76.7 / 67.7,greedy beats 98.8% of random sets
+V9b,N=4 % expected TB: greedy / district hospitals / random mean,94.1 / 80.9 / 74.0,greedy beats 99.8% of random sets
+V9b,N=5 % expected TB: greedy / district hospitals / random mean,97.2 / 90.7 / 78.4,greedy beats 100.0% of random sets
+V8,"30 min, N=3 sites",Klinik Ibu Dan Anak; Klinik Desa Parit Yob; Klinik Desa Jorak,63.6% covered
+V8,"60 min, N=3 sites",Top Vision; Klinik Desa; Klinik Desa Sungai Sayong,87.8% covered
+V8,"90 min, N=3 sites",Klinik Ladang Kuala Kabong; Klinik Kesihatan Bukit Serampang; Klinik Desa Kampung Gembut,98.2% covered
+V8,"120 min, N=3 sites",Klinik Kesihatan Renggam; Klinik Keshiatan Bekok; Klinik Kesihatan Tanjung Sedili,100.0% covered
+V8,sites shared 60 vs 90 min (N=3),0,FAIL
+V9c,Spearman rho straight-line vs friction travel,0.867,PASS
+V9c,districts whose travel desert point changes,2,"Tangkak, Pontian"
+V10,queen vs rook / queen vs k=3 agreement (2023),100% / 90%,
+V10,"LH under queen, years out of 5",KJ 4; KG 4; JB 2; PN 1; ST 1,reported
+V10,labels with p < 0.05 (all years x schemes),23 of 150,

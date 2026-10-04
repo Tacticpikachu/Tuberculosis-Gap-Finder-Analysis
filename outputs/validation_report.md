@@ -98,6 +98,22 @@ essentially zero, because Segamat scores high with almost no deaths (1 of 310) a
 death ratio (19 of 210). With 10 districts this test has low power; it neither confirms nor refutes the desert method.
 The pass rule (ρ > 0) was lenient; the honest reading is "no clear relationship, with Kluang consistent".
 
+## 7. Further pre-registered checks (addendum 2, commit b3a736a)
+
+| Test | What it checks | Result | Verdict |
+|---|---|---|---|
+| V1b Data consistency | Week-to-week: cumulative(w) − cumulative(w−1) = current week(w), all bulletins (174 of 182 parsed, 1,560 district-week checks) | 88.7% exact match (2014 99%, 2015 97%, 2016 100%, 2017 100%, 2023 86%, 2024 51%). Mismatches are mostly reporting lags and corrections inside the bulletins themselves (e.g. a cumulative total that falls between weeks). Year-end totals used in the analysis all match printed state totals. | FAIL (rule ≥ 95%) |
+| V9a Solver check | Greedy siting vs brute force over every 1- and 2-site combination (79,401 pairs) | Identical optimum for N = 1 and N = 2 | **PASS** |
+| V9b Baselines | Expected TB within 60 min: greedy vs one hospital per district vs 1,000 random sets | N=3: **87.8% vs 76.7% vs 67.7%**; N=5: 97.2% vs 90.7% vs 78.4%; greedy beats ≥ 98.8% of random sets at every N | reported (greedy best at every N) |
+| V9c Travel model | Straight-line minutes vs Malaria Atlas motorised friction travel time (least-cost path) | Spearman ρ = **0.87**; travel desert point changes for 2 districts (Tangkak, Pontian) | **PASS** (rule ρ ≥ 0.7) |
+| V8 Siting robustness | Greedy 3-site plans at 30/60/90/120 min | 0 of 3 sites shared between 60 and 90 min (wider reach favours different, more central clinics); coverage 63.6% / 87.8% / 98.2% / 100% | FAIL (rule ≥ 2 shared) |
+| V10 Moran stability | Quadrants 2014–2017 and 2023; queen vs rook vs k = 3 | Queen = rook 100%, queen vs k=3 90% (2023). **Kluang LH in 4 of 5 years**, Kulai 4 of 5; Pontian LH only in 2023. 23 of 150 labels have p < 0.05 | reported |
+
+Plain words: the van optimiser is verified (it finds the true best 1–2 sites and clearly beats simple alternatives), the
+quick travel estimate ranks districts like a proper road-friction model, and Kluang's "low next to high" label is stable
+across years. The exact van sites depend on the travel-time limit chosen, and the weekly bulletins contain internal
+reporting lags, especially in 2024.
+
 ## 5. What would change the result (legitimately)
 1. Obtain the missing week-52 bulletins for 2018–2022: this adds five full-year pairs that use
    DOSM population directly.

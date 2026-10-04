@@ -168,7 +168,15 @@ Plain words: "The strongest desert also loses many patients, and deserts as a gr
 ### V12 — Chest X-ray vs desert score (exploratory)
 "TB – CXR" row (cluster/outbreak table, 2014–2015 only; meaning uncertain). ρ = +0.23 — opposite of the expected direction. Reported only.
 
-### V5–V10: not completed (time).
+### V1b, V8, V9, V10 (pre-registered addendum 2)
+- **V9a solver: PASS** — greedy = brute-force optimum for 1 and 2 vans (79,401 pairs checked).
+- **V9b baselines:** 3 vans reach **87.8%** of expected TB vs **76.7%** with one hospital per district and **67.7%** for random sites; greedy beats ≥ 98.8% of random sets.
+- **V9c travel: PASS** — straight-line minutes vs Malaria Atlas motorised travel time, Spearman ρ = 0.87.
+- **V10 stability:** Kluang is "low next to high" in 4 of 5 years (stable); Pontian only in 2023.
+- **V8 robustness: FAIL** — the best 3 sites change completely between 60- and 90-minute limits.
+- **V1b data consistency: FAIL** (88.7% vs 95% rule) — weekly bulletins contain reporting lags/corrections (2014–2017 ≥ 97%, 2024 51%); year-end totals used all match state totals.
+
+### V5–V7: not completed (time).
 
 ---
 

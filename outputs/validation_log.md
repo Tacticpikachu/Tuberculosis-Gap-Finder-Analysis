@@ -20,3 +20,10 @@ Run: 2026-10-04 18:17 MYT · script analysis/v_core.py
 |---|---|---|
 | V11 Deaths vs deserts | Spearman ρ = 0.03 (one-sided p = 0.482); deaths per 100 cases: 2.8 in districts with ≥ 6 points vs 1.4 below | PASS (direction only (p ≥ 0.05)) |
 | V12 Chest X-ray vs deserts (exploratory) | Spearman ρ = 0.23 (one-sided p = 0.748) | reported only |
+| V1b Data consistency | 88.7% week-to-week match (lags/corrections in source) | FAIL |
+| V8 Siting robustness | 0/3 sites shared 60 vs 90 min | FAIL |
+| V9a Solver | greedy = brute force, N = 1–2 | PASS |
+| V9b Baselines | N=3: 87.8% vs 76.7% hospitals vs 67.7% random | reported |
+| V9c Travel model | ρ = 0.87 vs MAP friction | PASS |
+| V10 Moran stability | Kluang LH 4/5 years; queen=rook 100% | reported |
+
