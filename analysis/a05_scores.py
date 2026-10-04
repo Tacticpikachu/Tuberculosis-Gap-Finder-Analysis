@@ -162,21 +162,26 @@ def score_b(latest, pop_latest):
         print(f"  Factors without a usable rr_<factor> in parameters.csv (skipped): {no_rr}")
     risk = risk.dropna(subset=["rr"])
     if risk.empty:
-        return blank_score_b(latest, pop_latest, "no usable risk-factor rows (need p and a matching rr_<factor>)")
-    print(f"  Factors used: {sorted(risk['factor'].unique())}; WHO incidence {who_rate}/100k")
+        print("  WARNING: no usable risk-factor rows (need p and a matching rr_<factor>). "
+              "risk = 1 for every district, so Score B is the WHO rate shared by population only.")
+        basis = "population share only (no district risk-factor data)"
+    else:
+        basis = "risk factors: " + ", ".join(sorted(risk["factor"].unique()))
+    print(f"  Score B basis: {basis}; WHO incidence {who_rate}/100k")
 
     risk["term"] = 1 + risk["p"] * (risk["rr"] - 1)
     rel = risk.groupby("code")["term"].prod().rename("risk")
     b = pop_latest.set_index("code")[["pop"]].join(rel)
-    if b["risk"].isna().any():
+    if b["risk"].isna().any() and not risk.empty:
         print(f"  Districts with no risk-factor rows (risk = 1): {b.index[b['risk'].isna()].tolist()}")
-        b["risk"] = b["risk"].fillna(1.0)
+    b["risk"] = b["risk"].fillna(1.0)
     johor_total = who_rate / PER * b["pop"].sum()
     w = b["pop"] * b["risk"]
     b["expected_cases"] = johor_total * w / w.sum()
     b["expected_rate"] = b["expected_cases"] / b["pop"] * PER
     b = b.join(latest.set_index("code")[["smoothed_rate"]])
     b["gap"] = b["expected_rate"] - b["smoothed_rate"]
+    b["score_b_basis"] = basis
     return b.reset_index(), johor_total
 
 
@@ -301,7 +306,8 @@ def main():
     print("5) Desert points")
     s = (lookup[["code", "district"]].merge(latest[["code", "cases", "pop", "raw_rate",
                                                      "smoothed_rate", "rank", "top3"]], on="code")
-         .merge(b[["code", "risk", "expected_cases", "expected_rate", "gap"]], on="code")
+         .merge(b[["code", "risk", "expected_cases", "expected_rate", "gap"]
+                  + (["score_b_basis"] if "score_b_basis" in b else [])], on="code")
          .merge(t, on="code").merge(mor, on="code"))
     gap_hi = s["gap"] > s["gap"].median()
     min_hi = s["travel_min_approx"] > s["travel_min_approx"].median()
