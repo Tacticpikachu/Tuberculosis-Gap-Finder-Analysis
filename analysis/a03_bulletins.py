@@ -33,6 +33,7 @@ TEXT_WEEK_RES = [
     re.compile(r"(?i)epid(?:emiological)?\s+week\s*[-:]?\s*(\d{1,2})(?!\d)"),
     re.compile(r"(?i)week\s*[-:]?\s*(\d{1,2})(?!\d)"),
     re.compile(r"(?<![A-Za-z])ME\s*[-:]?\s*(\d{1,2})(?!\d)"),
+    re.compile(r"(?<![A-Za-z])EW\s*[-:]?\s*(\d{1,2})(?!\d)"),  # 2023+ cover: "EW 52"
 ]
 
 
