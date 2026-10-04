@@ -68,3 +68,4 @@ Any change is logged here with date, time, change and reason, before the affecte
 | Date and time | Change | Reason |
 |---|---|---|
 | 2026-10-04 17:38 MYT | Bulletin data kept as available: 2018-2022 missing; 2014 (to W31), 2016 (to W41) and 2017 (to W31) partial; 2015 and 2023 full. No values are filled in; analyses use only years present, and partial years are flagged. | Bulletins for these weeks/years were not obtained; team decision to proceed with the data as is (before any TB values were extracted). |
+| 2026-10-04 18:04 MYT | District population for 2014-2017 taken from WorldPop 1 km yearly rasters (sum within district boundaries); DOSM used for 2020+. | DOSM district series starts in 2020, leaving only one V2 year pair. Added after a first V2 run on 2023-2024 (FAIL); pass rules unchanged and the earlier result is kept in the validation log. |

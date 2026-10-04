@@ -67,7 +67,13 @@ def haversine_km(lat1, lon1, lat2, lon2):
 
 
 # ---------------------------------------------------------------- inputs
+POP_YEARLY = CLEAN / "population_district_year.csv"  # from a04b (DOSM 2020+, WorldPop earlier)
+
+
 def load_population(lookup):
+    if POP_YEARLY.exists():
+        print(f"  Population from {POP_YEARLY.relative_to(ROOT)}")
+        return pd.read_csv(POP_YEARLY)[["code", "year", "pop"]]
     pop = pd.read_parquet(POP)
     pop = pop[pop["state"].str.lower() == "johor"].copy()
     for col, total in [("sex", "both"), ("age", "overall"), ("ethnicity", "overall")]:

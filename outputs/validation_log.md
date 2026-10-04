@@ -1,11 +1,11 @@
 # Validation log
-Run: 2026-10-04 18:00 MYT · script analysis/v_core.py
+Run: 2026-10-04 18:03 MYT · script analysis/v_core.py
 
 | Test | Result | Pass |
 |---|---|---|
 | V1 Data accuracy | skipped (team decision) | - |
-| V2 Forecast accuracy | pairs [(2023, 2024)]; n=10; AUC 0.57 (CI 0.20-1.00); sens 0.00; skill -0.03; McNemar p=1.00; includes partial year(s) | FAIL |
-| V3 Better than chance | 0 hits over 1 round(s); P = 1.000 | reported |
+| V2 Forecast accuracy | pairs [(2014, 2015), (2015, 2016), (2016, 2017), (2023, 2024)]; n=40; AUC 0.60 (CI 0.40-0.78); sens 0.50; skill -0.00; McNemar p=0.50; includes partial year(s) | FAIL |
+| V3 Better than chance | 6 hits over 4 round(s); P = 0.087 | reported |
 | V4 Death check | not run: data/raw/tb_state_year.csv missing | - |
 | V5 Face validity | not completed (time) | - |
 | V6 Cost model verification | not completed (time) | - |
