@@ -70,3 +70,20 @@ Any change is logged here with date, time, change and reason, before the affecte
 | 2026-10-04 17:38 MYT | Bulletin data kept as available: 2018-2022 missing; 2014 (to W31), 2016 (to W41) and 2017 (to W31) partial; 2015 and 2023 full. No values are filled in; analyses use only years present, and partial years are flagged. | Bulletins for these weeks/years were not obtained; team decision to proceed with the data as is (before any TB values were extracted). |
 | 2026-10-04 18:04 MYT | District population for 2014-2017 taken from WorldPop 1 km yearly rasters (sum within district boundaries); DOSM used for 2020+. | DOSM district series starts in 2020, leaving only one V2 year pair. Added after a first V2 run on 2023-2024 (FAIL); pass rules unchanged and the earlier result is kept in the validation log. |
 | 2026-10-04 18:11 MYT | V4 run at Johor district level (TB deaths / notifications from the bulletins' cumulative tables, 2014-2017) instead of state level. H2 (states) remains untested. | State-level TB deaths not reachable (data.gov.my and MOH sites blocked); district deaths are printed in the bulletins. |
+| 2026-10-04 20:33 MYT | Added pre-registered desert-validation tests V11 (confirmatory) and V12 (exploratory), section below. Registered before either was computed; no V11/V12 values had been looked at. | V2 showed next-year forecasting is not the tool's strength; the tool's main claim (diagnostic deserts) needed its own test. |
+
+## Pre-registered addendum: diagnostic-desert validation (2026-10-04 20:33 MYT, tag prereg-v2)
+Fixed before analysis. Original pass rules above are unchanged.
+
+**Desert points for year t** (t = 2014, 2015, 2016, 2017): computed exactly as in the main method, using that year's
+Score A; expected rate = WHO Malaysia incidence for year t (`e_inc_100k`, WHO burden estimates file); gap = expected − Score A;
+LH quadrant from Local Moran's I on year-t Score A (queen weights, 999 permutations, seed 42); travel = the same approximate
+district travel minutes as the main analysis. Points = [LH] + [gap > median] + [travel > median].
+
+| Test | Method | Pass rule |
+|---|---|---|
+| V11 Deaths vs deserts (confirmatory) | Per district: total desert points summed over 2014–2017 (0–12) vs TB death ratio = deaths ÷ notifications, 2014–2017 (bulletins). Spearman's ρ; one-sided permutation p (10,000 permutations, seed 42). Secondary: death ratio of districts with total points ≥ 6 vs < 6. | ρ > 0. Supportive if p < 0.05; otherwise reported as direction only. |
+| V12 Chest X-ray vs deserts (exploratory) | Bulletin row "TB – CXR" in the "cluster / outbreak" table (2014–2015 only; meaning uncertain, likely X-rays linked to cluster investigations) per 100,000 vs total desert points 2014–2015. Spearman's ρ. | No pass rule; reported only (expected direction ρ < 0). |
+
+All results are reported whether they support the desert method or not. With 10 districts, both tests have low power.
+
