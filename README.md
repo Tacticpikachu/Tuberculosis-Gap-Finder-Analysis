@@ -63,4 +63,8 @@ interval; FDR = false discovery rate.
 - Moran's I results are exploratory (10 districts limit statistical power).
 
 ## Deviations from plan
-None yet. Any change is logged here with date, time, change and reason, before the affected results exist.
+Any change is logged here with date, time, change and reason, before the affected results exist.
+
+| Date and time | Change | Reason |
+|---|---|---|
+| 2026-10-04 17:38 MYT | Bulletin data kept as available: 2018-2022 missing; 2014 (to W31), 2016 (to W41) and 2017 (to W31) partial; 2015 and 2023 full. No values are filled in; analyses use only years present, and partial years are flagged. | Bulletins for these weeks/years were not obtained; team decision to proceed with the data as is (before any TB values were extracted). |
