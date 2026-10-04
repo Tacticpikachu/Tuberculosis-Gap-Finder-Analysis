@@ -2,7 +2,11 @@
 
 Saves into data/raw/. Skips files that already exist. Reports and skips any failure.
 """
+import hashlib
 import json
+import os
+import re
+import time
 from pathlib import Path
 
 import requests
@@ -17,7 +21,11 @@ FILES = {
     "mys_ppp_2020_1km_Aggregated.tif": "https://data.worldpop.org/GIS/Population/Global_2000_2020_1km/2020/MYS/mys_ppp_2020_1km_Aggregated.tif",
 }
 GEOBOUNDARIES_API = "https://www.geoboundaries.org/api/current/gbOpen/MYS/ADM2/"
-OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+GITHUB_RAW_RE = re.compile(r"https://github\.com/([^/]+)/([^/]+)/raw/([^/]+)/(.+)")
+# Set OVERPASS_URL to use another Overpass server (e.g. https://overpass.kumi.systems/api/interpreter)
+OVERPASS_URL = os.environ.get("OVERPASS_URL", "https://overpass-api.de/api/interpreter")
+HEADERS = {"User-Agent": "TB-Gap-Finder-research/0.1 (https://github.com/Tacticpikachu/Tuberculosis-Gap-Finder-Analysis)"}
+OVERPASS_TRIES = 4
 OVERPASS_QUERY = """
 [out:json][timeout:300];
 area["ISO3166-2"="MY-01"]["admin_level"="4"]->.johor;
@@ -50,12 +58,40 @@ def get_boundaries(dest):
     meta.raise_for_status()
     url = meta.json()["gjDownloadURL"]
     print(f"  gjDownloadURL = {url}")
-    download(url, dest)
+    try:
+        download(url, dest)
+        return
+    except requests.HTTPError as exc:
+        m = GITHUB_RAW_RE.match(url)
+        if not m:
+            raise
+        print(f"  {exc}; trying the Git LFS copy of the same file")
+    owner, repo, ref, path = m.groups()
+    pointer = requests.get(f"https://raw.githubusercontent.com/{owner}/{repo}/{ref}/{path}", timeout=TIMEOUT)
+    pointer.raise_for_status()
+    expected = re.search(r"oid sha256:([0-9a-f]{64})", pointer.text)
+    lfs_url = f"https://media.githubusercontent.com/media/{owner}/{repo}/{ref}/{path}"
+    print(f"  LFS URL = {lfs_url}")
+    download(lfs_url, dest)
+    if expected:
+        actual = hashlib.sha256(dest.read_bytes()).hexdigest()
+        if actual != expected.group(1):
+            dest.unlink()
+            raise RuntimeError(f"sha256 mismatch: got {actual}, expected {expected.group(1)}")
+        print(f"  sha256 matches LFS pointer ({actual[:12]}...)")
 
 
 def get_health_facilities(dest):
-    r = requests.post(OVERPASS_URL, data={"data": OVERPASS_QUERY}, timeout=TIMEOUT * 3)
-    r.raise_for_status()
+    for attempt in range(1, OVERPASS_TRIES + 1):
+        try:
+            r = requests.post(OVERPASS_URL, data={"data": OVERPASS_QUERY}, headers=HEADERS, timeout=TIMEOUT * 3)
+            r.raise_for_status()
+            break
+        except requests.RequestException as exc:
+            print(f"  attempt {attempt}/{OVERPASS_TRIES} failed: {type(exc).__name__}: {exc}")
+            if attempt == OVERPASS_TRIES:
+                raise
+            time.sleep(2 ** attempt * 5)
     elements = r.json()["elements"]
     features = []
     for el in elements:

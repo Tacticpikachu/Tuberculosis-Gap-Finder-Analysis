@@ -64,8 +64,7 @@ def total_rows(df):
 
 
 def main():
-    for f in ["population_district.parquet", "hh_income_district.parquet",
-              "mys_adm2.geojson", "health_facilities.geojson"]:
+    for f in ["population_district.parquet", "hh_income_district.parquet", "mys_adm2.geojson"]:
         require(RAW / f)
     CLEAN.mkdir(parents=True, exist_ok=True)
 
@@ -129,6 +128,9 @@ def main():
           f"{len(johor)} of 10 Johor districts found -> {'OK' if len(johor) == 10 else 'CHECK'}")
 
     # ---- quick checks: health facilities ----
+    if not (RAW / "health_facilities.geojson").exists():
+        print("\nhealth_facilities.geojson: MISSING (download failed), check skipped")
+        return
     hf = gpd.read_file(RAW / "health_facilities.geojson")
     print(f"\nhealth_facilities.geojson: {len(hf)} facilities, columns {list(hf.columns)}")
     print(hf["amenity"].value_counts(dropna=False).to_string())
