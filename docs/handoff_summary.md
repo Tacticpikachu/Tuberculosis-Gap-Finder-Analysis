@@ -47,11 +47,11 @@ Quality check: in every bulletin the 10 district TB values (and deaths) sum exac
 |---|---|---|---|
 | V1 data accuracy | Blind re-entry of 20 values | Skipped (team decision); extraction sums matched state totals 6/6 | not completed |
 | **V2 forecast accuracy** | Does Score A predict next year's top-3 better than "same as last year"? 4 year-pairs, n = 40 | AUC 0.60 (CI 0.40–0.78), sensitivity 0.50 (6/12), skill −0.003; baseline 7/12 | **FAIL** (needs AUC CI low > 0.5, sens ≥ 0.67, skill > 0) |
-| **V3 better than chance** | P(≥ 6 hits in 4 rounds) if picking 3 of 10 at random | **p = 0.087**: 2× random (6 vs 3), not significant | reported |
+| **V3 better than chance** | P(≥ 6 hits in 4 rounds) if picking 3 of 10 at random | **p = 0.087**: about 1.7× random (6 vs 3.6 expected), not significant | reported |
 | **V4 death check** | Funnel plot of deaths per case, 95%/99.8% limits (run by **district**, 2014–2017; planned by state) | Johor 1.6 deaths/100 cases; flagged **Tangkak 9.0** and **Kluang 5.4** | 2 flagged; state-level H2 untested |
 | V5–V10 | Face validity, cost model, siting robustness, Moran stability | not completed (time) | — |
 
-Plain-language: V2 = "smarter than a lazy guess?" → not yet. V3 = "smarter than random?" → probably (p = 0.087).
+Plain-language: V2 = "smarter than a lazy guess?" → not yet. V3 = "smarter than random?" → probably, about 1.7× random (p = 0.087).
 V4 = "where do TB patients die more than normal?" → Kluang & Tangkak, a sign of **late diagnosis**; independent
 real-data support for the Kluang desert finding.
 

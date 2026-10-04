@@ -159,7 +159,7 @@ TB.load().then(({ site }) => {
   const v2 = get("V2", "verdict"), v3 = V.find((r) => r.test === "V3") || {}, v4 = get("V4", "states_above_95");
   const cards = [
     ["V2 · Forecast accuracy", v2.pass || "–", `AUC ${(+get("V2", "model_auc").value).toFixed(2)} (95% CI ${get("V2", "auc_ci95").value}); sensitivity ${(+get("V2", "model_sensitivity").value).toFixed(2)}; skill ${(+get("V2", "skill_score").value).toFixed(3)}. Does our ranking beat “same as last year”? Not yet.`],
-    ["V3 · Better than chance", `p = ${(+v3.value).toFixed(3)}`, `${v3.metric || ""}. Twice as many hits as random picking, but not yet significant (needs p < 0.05).`],
+    ["V3 · Better than chance", `p = ${(+v3.value).toFixed(3)}`, `${v3.metric || ""}. About 1.7× the hits expected from random picking (6 vs 3.6), but not yet significant (needs p < 0.05).`],
     ["V4 · Death check", v4.value || "–", `${v4.pass || ""}. Higher deaths per case can mean TB is diagnosed late.`],
   ];
   document.getElementById("vcards").innerHTML = cards.map(([k, v, s]) =>

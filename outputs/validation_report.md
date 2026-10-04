@@ -74,7 +74,7 @@ A first V2 run with only the (2023, 2024) pair (n = 10) also failed (0 of 3 hits
 the log, as the plan requires all results to be reported.
 
 ## 4. Interpretation
-- **H1 not supported.** Score A found 6 of 12 next-year hotspots (twice the 3 expected by chance,
+- **H1 not supported.** Score A found 6 of 12 next-year hotspots (about 1.7× the 3.6 expected by chance,
   P = 0.087), but did not beat the "same as last year" baseline, and none of the three pass
   criteria were met.
 - **Why.** (1) Only four year pairs, so the confidence intervals are wide; (2) four of the six
