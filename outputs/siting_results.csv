@@ -1,0 +1,6 @@
+version,n_units,osm_id,name,amenity,district,lat,lon,added_weight,covered_expected_cases,covered_expected_pct,covered_pop,threshold_min,method
+population_only,1,node/9671739763,KLINIK LESTARI,hospital,KJ,1.6101903,103.6675979,2531709.192539498,,,2531709.192539498,60,straight-line at 40 km/h (approximate)
+population_only,2,way/1537750950,Klinik Kesihatan Yong Peng,clinic,BP,2.029769,103.0567458,828831.9008957148,,,3360541.093435213,60,straight-line at 40 km/h (approximate)
+population_only,3,way/1043669238,Klinik Kesihatan Sagil,clinic,LG,2.303197,102.6115358,467548.36276626587,,,3828089.456201479,60,straight-line at 40 km/h (approximate)
+population_only,4,way/491874095,Poliklinik Desaru Dr.Abdullah@Maliq,clinic,KT,1.5730406,104.2079079,74119.80500215292,,,3902209.2612036318,60,straight-line at 40 km/h (approximate)
+population_only,5,way/1355946241,Klinik Desa Seri Pantai,clinic,MG,2.392442,103.8583577,70829.09934926033,,,3973038.360552892,60,straight-line at 40 km/h (approximate)

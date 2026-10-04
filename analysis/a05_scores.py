@@ -48,7 +48,7 @@ def stop(msg):
 
 
 def check_inputs():
-    missing = [p for p in (TB, PARAMS, RISK, POP, FACILITIES, LOOKUP, DISTRICTS) if not p.exists()]
+    missing = [p for p in (TB, POP, FACILITIES, LOOKUP, DISTRICTS) if not p.exists()]
     if missing:
         stop("missing input files:\n" + "\n".join(f"  - {p.relative_to(ROOT)}" for p in missing))
 
@@ -85,7 +85,7 @@ def load_tb(lookup):
     unknown = sorted(set(tb["code"]) - set(lookup["code"]))
     if unknown:
         stop(f"{TB.name} has codes not in district_lookup.csv: {unknown}")
-    tb = tb.dropna(subset=["cases"])
+    tb = tb[["code", "year", "cases"]].dropna(subset=["cases"])
     if INVENTORY.exists():
         inv = pd.read_csv(INVENTORY)
         weeks = inv[inv["selected"]].set_index("year")["week"]
@@ -125,6 +125,13 @@ def score_a(tb, pop):
 
 # ---------------------------------------------------------------- 2) Score B
 def score_b(latest, pop_latest):
+    absent = [p.relative_to(ROOT).as_posix() for p in (PARAMS, RISK) if not p.exists()]
+    if absent:
+        print(f"  NOT COMPUTED: missing {absent}. Score B, gap, desert points and "
+              "TB-weighted siting are left blank (never filled with guesses).")
+        b = pop_latest[["code", "pop"]].assign(risk=np.nan, expected_cases=np.nan, expected_rate=np.nan)
+        b = b.merge(latest[["code", "smoothed_rate"]], on="code")
+        return b.assign(gap=np.nan), None
     params = pd.read_csv(PARAMS, dtype=str)
     risk = pd.read_csv(RISK, dtype={"code": str, "factor": str})
     need_cols(params, ["parameter", "value"], PARAMS.name)
@@ -273,7 +280,8 @@ def main():
     print("2) Score B")
     pop_latest = pop[pop["year"] == year]
     b, johor_total = score_b(latest, pop_latest)
-    print(f"  Johor expected total = {johor_total:,.0f} cases")
+    if johor_total is not None:
+        print(f"  Johor expected total = {johor_total:,.0f} cases")
 
     print("3) Approximate travel (straight-line, 40 km/h)")
     fac = gpd.read_file(FACILITIES)
@@ -297,6 +305,11 @@ def main():
                                   ["strong", "possible"], "none")
     s["gap_type"] = np.select([gap_hi & min_hi, gap_hi & ~min_hi],
                               ["access gap", "awareness gap"], "monitor")
+    if s["gap"].isna().all():  # no Score B: the gap criterion cannot be judged
+        s["desert_points"] = pd.NA
+        s["desert_level"] = s["gap_type"] = "not computed (no Score B)"
+    s["travel_label"] = "approximate (straight-line, 40 km/h)"
+    s["moran_label"] = "exploratory (10 districts)"
     s["action"] = s["gap_type"].map({"access gap": "portable X-ray unit",
                                      "awareness gap": "trusted-messenger campaign",
                                      "monitor": "monitor"})
@@ -314,8 +327,11 @@ def main():
     km = haversine_km(fac["lat"].to_numpy()[:, None], fac["lon"].to_numpy()[:, None],
                       cells["lat"].to_numpy()[None, :], cells["lon"].to_numpy()[None, :])
     covers = km / SPEED_KMH * 60 <= COVER_MIN
-    rows = (greedy(exp_cells, covers, fac, "expected_tb", exp_cells)
-            + greedy(cells_pop, covers, fac, "population_only", exp_cells))
+    rows = greedy(cells_pop, covers, fac, "population_only", exp_cells)
+    if np.isnan(exp_cells).all():
+        print("  expected_tb version NOT COMPUTED (no Score B); population-only version only")
+    else:
+        rows = greedy(exp_cells, covers, fac, "expected_tb", exp_cells) + rows
     sit = pd.DataFrame(rows)
     sit.to_csv(OUT / "siting_results.csv", index=False)
 
