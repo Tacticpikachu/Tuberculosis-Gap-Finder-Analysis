@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CLEAN, OUT = ROOT / "data" / "clean", ROOT / "outputs"
 NO = "No data"
 
-st.set_page_config(page_title="TB Gap Finder · Johor", page_icon="web/assets/logo.svg", layout="wide")
+st.set_page_config(page_title="TB Gap Finder · Johor", layout="wide")
 
 st.markdown("""
 <style>
