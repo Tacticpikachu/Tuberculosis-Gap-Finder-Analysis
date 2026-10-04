@@ -87,3 +87,15 @@ district travel minutes as the main analysis. Points = [LH] + [gap > median] + [
 
 All results are reported whether they support the desert method or not. With 10 districts, both tests have low power.
 
+## Pre-registered addendum 2: running V8, V9, V10 and a data-consistency check (2026-10-04 20:38 MYT)
+Registered before computing. Pass rules for V8, V9 and V10 are those in the original table; changes are listed here.
+
+| Test | Method | Pass rule |
+|---|---|---|
+| V1b Data consistency (new) | For every pair of consecutive weekly bulletins in the same year (all 182 PDFs), per district: cumulative TB(week w) − cumulative TB(week w−1) compared with "current week" TB(week w). | ≥ 95% of district-week checks match exactly; all mismatches listed. |
+| V8 Siting robustness | Greedy expected-TB siting rerun with 30, 90, 120-minute coverage (20, 60, 80 km at 40 km/h). | At N = 3, ≥ 2 of 3 sites shared between 60 and 90 minutes (original rule). |
+| V9a Solver check | Brute force over all 1- and 2-site combinations of the 399 facilities (60 min). | Greedy matches brute force for N = 1–2 (original rule). |
+| V9b Baselines | Greedy vs (i) one hospital per district, chosen as the hospital nearest each district's population-weighted centre, added in order of district population; (ii) 1,000 random facility sets (seed 42); N = 1–5. | Reported (original rule). |
+| V9c Travel check (replaces "10 routes vs Google Maps": no Maps access) | Motorised travel time from the Malaria Atlas Project 2019 friction surface (least-cost path to nearest facility), population-weighted per district, vs the straight-line estimate. | Spearman ρ ≥ 0.7 between the two district rankings; number of districts whose travel desert point changes is reported. |
+| V10 Moran stability | Local Moran quadrants for 2014–2017 and 2023 with queen, rook and k = 3 nearest-neighbour weights (999 permutations, seed 42). | Reported (original rule). |
+
