@@ -1,0 +1,7 @@
+{
+  "buildCommand": "rm -rf dist && mkdir -p dist/data && cp -r web/* dist/ && cp -r outputs/web_data/* dist/data/",
+  "outputDirectory": "dist",
+  "installCommand": "echo no install needed",
+  "framework": null,
+  "cleanUrls": true
+}

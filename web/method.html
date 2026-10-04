@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method · TB Gap Finder</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%231c4a3a'/><text x='50' y='64' font-size='44' text-anchor='middle' fill='%23f6f4ea' font-family='Arial' font-weight='700'>TB</text></svg>">
+</head>
+<body>
+<nav class="nav" id="nav"></nav>
+<header class="hero" style="padding:72px 0 40px">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="wrap">
+    <span class="eyebrow">Methodology · pre-registered · tag prereg-v1</span>
+    <h1 style="font-size:clamp(2rem,4.4vw,3.2rem)">How we <span class="grad">calculated it</span></h1>
+    <p class="lead">From PDF bulletins to a deployment plan in eight steps. Scroll: each step animates as you reach it.</p>
+  </div>
+</header>
+
+<section style="padding-top:10px">
+  <div class="wrap">
+    <div class="timeline" id="tl"><div class="prog" id="prog"></div>
+
+      <div class="step reveal"><div class="num">1</div><span class="badge real">REAL DATA</span>
+        <h3>Collect & check the counts</h3>
+        <p class="sub" style="margin:0">For each year we took the latest weekly Johor epidemiological bulletin and copied the cumulative
+          “Tuberculosis (all forms)” row for the 10 districts. Every year, the 10 district numbers add up exactly to the state total printed in the bulletin.</p>
+        <div class="viz card" id="viz-counts" style="margin-top:14px"></div>
+      </div>
+
+      <div class="step reveal"><div class="num">2</div><span class="badge real">REAL DATA</span>
+        <h3>Turn counts into rates</h3>
+        <p class="sub" style="margin:0">Cases ÷ population × 100,000. Population: DOSM (2020+) and WorldPop 1 km grids summed within district borders (2014–2017).</p>
+        <div class="formula" data-tex="r_i = \dfrac{\text{cases}_i}{\text{pop}_i}\times 10^5"></div>
+      </div>
+
+      <div class="step reveal" id="step-eb"><div class="num">3</div><span class="badge real">REAL DATA</span>
+        <h3>Score A: steady the rates (Empirical Bayes)</h3>
+        <p class="sub" style="margin:0">Small districts can swing by chance. Each rate is pulled toward the Johor average by an amount that depends on how small the district is. Watch the orange (raw) dots move to blue (smoothed).</p>
+        <div class="formula" data-tex="\hat r_i = m + C_i\,(r_i - m),\quad C_i=\dfrac{s^2}{s^2+m/n_i},\quad s^2=\dfrac{\sum n_i (r_i-m)^2}{\sum n_i}-\dfrac{m}{\bar n}"></div>
+        <div class="viz card" id="viz-eb"></div>
+      </div>
+
+      <div class="step reveal"><div class="num">4</div><span class="badge est">ESTIMATED</span>
+        <h3>Score B: how much TB should there be?</h3>
+        <p class="sub" style="margin:0">WHO estimates Malaysia's true TB incidence (97 per 100,000 in 2023), including undiagnosed cases. We share that total across districts by population × risk.
+          Risk uses relative risks for diabetes (1.60), undernutrition (1.96) and alcohol use disorders (3.33). District prevalence data are not yet available, so today every district has risk = 1.</p>
+        <div class="formula" data-tex="\text{risk}_i=\prod_k\big(1+p_{ik}(RR_k-1)\big),\qquad E_i=\text{WHO}\times\text{Pop}_{\text{Johor}}\times\dfrac{\text{pop}_i\,\text{risk}_i}{\sum_j \text{pop}_j\,\text{risk}_j}"></div>
+      </div>
+
+      <div class="step reveal"><div class="num">5</div><span class="badge est">ESTIMATED</span>
+        <h3>The hidden gap</h3>
+        <p class="sub" style="margin:0">Expected rate minus reported (smoothed) rate. A big positive gap means many cases are probably not being found.</p>
+        <div class="formula" data-tex="\text{Gap}_i = \dfrac{E_i}{\text{pop}_i}\times10^5-\hat r_i"></div>
+        <div class="viz card" id="viz-gap"></div>
+      </div>
+
+      <div class="step reveal"><div class="num">6</div><span class="badge est">≈ APPROXIMATE</span>
+        <h3>How far is care?</h3>
+        <p class="sub" style="margin:0">For every 1 km population cell, the straight-line distance to the nearest of 399 clinics and hospitals (OpenStreetMap), converted at 40 km/h and averaged by population.
+          Real road journeys are longer, so read these as relative, not exact.</p>
+        <div class="formula" data-tex="\text{minutes}_i=\dfrac{\sum_c \text{pop}_c\,\min_f d(c,f)}{\sum_c \text{pop}_c}\times\dfrac{60}{40}"></div>
+      </div>
+
+      <div class="step reveal"><div class="num">7</div><span class="badge exp">EXPLORATORY</span>
+        <h3>Clusters & diagnostic deserts</h3>
+        <p class="sub" style="margin:0">Local Moran's I (queen neighbours, 999 permutations) tags each district as HH, LL, HL or LH. A <b>diagnostic desert</b> scores one point each for:
+          LH (low TB beside high TB), gap above median, and travel above median. 3 points = strong, 2 = possible.</p>
+        <div class="grid g3" style="margin-top:14px" id="viz-desert"></div>
+      </div>
+
+      <div class="step reveal"><div class="num">8</div><span class="badge est">ESTIMATED</span>
+        <h3>Where to put X-ray units</h3>
+        <p class="sub" style="margin:0">A greedy optimiser adds, one at a time, the clinic that brings the most not-yet-covered expected TB within 60 minutes (40 km).
+          We compare it with a version that only maximises population. On the Explore page you can try your own sites.</p>
+        <div class="viz card" id="viz-site"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="reveal">Validation: our honest scorecard</h2>
+    <p class="sub reveal">Pass rules were fixed in the README before any TB values were extracted. We report every result.</p>
+    <div class="grid g3" id="vcards"></div>
+    <div class="grid g3" style="margin-top:18px">
+      <figure class="card reveal" style="margin:0"><img src="data/roc_curve.png" alt="ROC curve" style="width:100%;border-radius:10px"><figcaption style="font-size:13px;color:var(--muted)">V2 ROC curve: model vs “same as last year”.</figcaption></figure>
+      <figure class="card reveal" style="margin:0"><img src="data/confusion_matrix.png" alt="Confusion matrix" style="width:100%;border-radius:10px"><figcaption style="font-size:13px;color:var(--muted)">V2 confusion matrix, 40 district-years.</figcaption></figure>
+      <figure class="card reveal" style="margin:0"><img src="data/funnel.png" alt="Funnel plot" style="width:100%;border-radius:10px"><figcaption style="font-size:13px;color:var(--muted)">V4 funnel: deaths per notified case by district.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap grid g2">
+    <div class="card reveal"><h3>Data sources</h3><ul style="color:var(--muted);margin:8px 0 0;padding-left:18px">
+      <li>Johor State Health Department weekly epidemiological bulletins (2014–2017, 2023–2024)</li>
+      <li>DOSM district population (2020+); WorldPop 1 km (2014–2017, 2020)</li>
+      <li>WHO TB burden estimates (Malaysia, 2023)</li>
+      <li>Franco et al. 2024 (Cochrane): diabetes, undernutrition · Imtiaz et al. 2017: alcohol</li>
+      <li>OpenStreetMap health facilities · geoBoundaries district borders</li></ul></div>
+    <div class="card reveal"><h3>Limitations</h3><ul style="color:var(--muted);margin:8px 0 0;padding-left:18px">
+      <li>Bulletins for 2018–2022 missing; 2014, 2016, 2017, 2024 are part-year</li>
+      <li>Score B uses population share only until district risk-factor data are added</li>
+      <li>Travel time is straight-line at 40 km/h, not the road network</li>
+      <li>Clustering is exploratory with only 10 districts</li>
+      <li>V1, state-level V4 and V5–V10 not completed; V4 run by district (logged deviation)</li></ul></div>
+  </div>
+</section>
+
+<footer><div class="wrap">TB Gap Finder · Methods mirror analysis/a04–a05 and analysis/v_core.py in the repository. Not a clinical tool.</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="assets/common.js"></script>
+<script>
+TB.nav("method");
+document.querySelectorAll(".formula").forEach((el) => { try { katex.render(el.dataset.tex, el, { displayMode: true, throwOnError: false }); } catch (e) { el.textContent = el.dataset.tex; } });
+const tl = document.getElementById("tl"), prog = document.getElementById("prog");
+addEventListener("scroll", () => {
+  const r = tl.getBoundingClientRect(), h = innerHeight * 0.6;
+  prog.style.height = Math.max(0, Math.min(r.height, h - r.top)) + "px";
+}, { passive: true });
+
+TB.load().then(({ site }) => {
+  const D = site.districts, year = site.year;
+  // step 1: animated bars of cases per district
+  const maxC = Math.max(...D.map((d) => d.cases));
+  document.getElementById("viz-counts").innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:6px">TB cases by district, ${year}</div>` +
+    [...D].sort((a, b) => b.cases - a.cases).map((d) => `<div class="shrink"><span class="lab">${d.district}</span><div style="flex:1"><div class="bar" style="margin:0"><span data-w="${d.cases / maxC * 100}"></span></div></div><b style="width:48px;text-align:right">${d.cases}</b></div>`).join("");
+  // step 3: shrinkage
+  const rates = D.flatMap((d) => [d.raw_rate, d.smoothed_rate]), lo = Math.min(...rates) - 3, hi = Math.max(...rates) + 3;
+  const pos = (v) => ((v - lo) / (hi - lo) * 100).toFixed(2) + "%";
+  const m = D.reduce((a, d) => a + d.cases, 0) / D.reduce((a, d) => a + d.pop, 0) * 1e5;
+  document.getElementById("viz-eb").innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:8px"><span class="badge" style="background:var(--est);color:var(--est-ink)">● raw</span> <span class="badge" style="background:var(--real);color:var(--real-ink)">● smoothed</span> · line = Johor mean ${m.toFixed(1)} /100k</div>` +
+    [...D].sort((a, b) => a.pop - b.pop).map((d) => `<div class="shrink"><span class="lab">${d.district}</span><div class="track"><span class="mean" style="left:${pos(m)}"></span>
+      <span class="dot raw" style="left:${pos(d.raw_rate)}"></span><span class="dot eb" data-from="${pos(d.raw_rate)}" data-to="${pos(d.smoothed_rate)}" style="left:${pos(d.raw_rate)}"></span></div>
+      <span style="width:120px;font-size:12px;color:var(--muted)">${d.raw_rate.toFixed(1)} → <b style="color:var(--ink)">${d.smoothed_rate.toFixed(1)}</b></span></div>`).join("") +
+    `<p style="font-size:12px;color:var(--muted);margin:8px 0 0">Sorted smallest to largest population: smaller districts move further.</p>`;
+  // step 5: gap bars
+  const maxG = Math.max(...D.map((d) => Math.abs(d.gap || 0))) || 1;
+  document.getElementById("viz-gap").innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:6px">Hidden gap per 100,000 (expected − reported)</div>` +
+    [...D].sort((a, b) => (b.gap || 0) - (a.gap || 0)).map((d) => `<div class="shrink"><span class="lab">${d.district}</span><div style="flex:1"><div class="bar" style="margin:0"><span data-w="${Math.max(0, d.gap || 0) / maxG * 100}"></span></div></div><b style="width:48px;text-align:right">${TB.fmt(d.gap, 0)}</b></div>`).join("");
+  // step 7: desert cards
+  document.getElementById("viz-desert").innerHTML = [...D].sort((a, b) => (b.desert_points || 0) - (a.desert_points || 0)).slice(0, 3).map((d) =>
+    `<div class="card lift" style="box-shadow:none"><div class="stat"><div class="k">${d.desert_level} desert</div><div class="v" style="font-size:1.4rem">${d.district}</div>
+     <div class="s">${d.desert_points}/3 points · ${d.moran_quadrant} · ${TB.fmt(d.travel_min_approx, 1)} min · ${d.action}</div></div></div>`).join("");
+  // step 8: siting curve as bars
+  const sit = site.siting;
+  document.getElementById("viz-site").innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:6px">% of expected TB within 60 min, by number of units</div>` +
+    [1, 2, 3, 4, 5].map((n) => { const a = sit.find((r) => r.version === "expected_tb" && r.n_units === n), b = sit.find((r) => r.version === "population_only" && r.n_units === n);
+      return `<div class="shrink"><span class="lab">${n} unit${n > 1 ? "s" : ""}</span><div style="flex:1"><div class="bar" style="margin:2px 0"><span data-w="${a ? a.covered_expected_pct : 0}"></span></div>
+      <div class="bar" style="margin:2px 0"><span data-w="${b ? b.covered_expected_pct : 0}" style="background:var(--accent)"></span></div></div><b style="width:90px;text-align:right;font-size:12px">${a ? a.covered_expected_pct.toFixed(0) : "–"}% / ${b ? b.covered_expected_pct.toFixed(0) : "–"}%</b></div>`; }).join("") +
+    `<p style="font-size:12px;color:var(--muted);margin:8px 0 0"><span style="color:var(--brand-2)">■</span> expected-TB target · <span style="color:var(--accent)">■</span> population target</p>`;
+  // validation cards
+  const V = site.validation, get = (t, m) => (V.find((r) => r.test === t && r.metric === m) || {});
+  const v2 = get("V2", "verdict"), v3 = V.find((r) => r.test === "V3") || {}, v4 = get("V4", "states_above_95");
+  const cards = [
+    ["V2 · Forecast accuracy", v2.pass || "–", `AUC ${(+get("V2", "model_auc").value).toFixed(2)} (95% CI ${get("V2", "auc_ci95").value}); sensitivity ${(+get("V2", "model_sensitivity").value).toFixed(2)}; skill ${(+get("V2", "skill_score").value).toFixed(3)}. Does our ranking beat “same as last year”? Not yet.`],
+    ["V3 · Better than chance", `p = ${(+v3.value).toFixed(3)}`, `${v3.metric || ""}. Twice as many hits as random picking, but not yet significant (needs p < 0.05).`],
+    ["V4 · Death check", v4.value || "–", `${v4.pass || ""}. Higher deaths per case can mean TB is diagnosed late.`],
+  ];
+  document.getElementById("vcards").innerHTML = cards.map(([k, v, s]) =>
+    `<div class="card reveal lift"><div class="stat"><div class="k">${k}</div><div class="v ${v === "FAIL" ? "pill-fail" : v === "PASS" ? "pill-pass" : ""}" style="font-size:1.5rem">${v}</div></div><p>${s}</p></div>`).join("");
+  // animate on reveal
+  document.querySelectorAll(".step, .card").forEach((el) => el.addEventListener("revealed", () => {
+    el.querySelectorAll("[data-w]").forEach((b, i) => setTimeout(() => (b.style.width = b.dataset.w + "%"), 80 * i));
+    el.querySelectorAll(".dot.eb").forEach((d, i) => setTimeout(() => (d.style.left = d.dataset.to), 500 + 90 * i));
+  }));
+  TB.reveal();
+}).catch((e) => console.error(e));
+</script>
+</body>
+</html>

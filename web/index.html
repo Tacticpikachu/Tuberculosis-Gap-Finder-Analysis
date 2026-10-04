@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TB Gap Finder</title>
+<meta name="description" content="Find hidden tuberculosis in Johor districts and plan where portable X-ray units should go.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%231c4a3a'/><text x='50' y='64' font-size='44' text-anchor='middle' fill='%23f6f4ea' font-family='Arial' font-weight='700'>TB</text></svg>">
+</head>
+<body>
+<nav class="nav" id="nav"></nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><span class="pulse"></span> Johor · tuberculosis</span>
+      <h1>Hidden TB?<br><span class="grad">Find it with numbers.</span></h1>
+      <p class="lead">TB Gap Finder compares the TB each Johor district reports with the TB it should have,
+        flags diagnostic deserts, and shows where portable X-ray units reach the most people at risk.</p>
+      <div class="cta">
+        <a class="btn primary" href="explore.html">Open the district map →</a>
+        <a class="btn" href="method.html">How we calculate it</a>
+      </div>
+      <div class="note">Open data · pre-registered rules · every result reported, pass or fail</div>
+    </div>
+
+    <div class="calc reveal">
+      <div class="title">Live X-ray coverage planner</div>
+      <div class="box">
+        <div class="row"><span>Portable X-ray units</span><span class="big" id="u-val">3</span></div>
+        <input type="range" id="u" min="1" max="5" value="3" aria-label="Number of units">
+        <div class="ticks"><span>1 unit</span><span>3 units</span><span>5 units</span></div>
+      </div>
+      <div class="two">
+        <div class="mini"><div class="k">Reported TB</div><div class="v" id="h-rep">–</div><div class="s">bulletins, <span id="h-year"></span></div></div>
+        <div class="mini on"><div class="k">Expected TB</div><div class="v" id="h-exp">–</div><div class="s">WHO estimate, all Johor</div></div>
+      </div>
+      <div class="dark">
+        <div class="k">Expected TB within 60 minutes</div>
+        <div class="v"><span id="h-cov">–</span> <span style="font-size:15px;font-weight:400;color:#9fb0a5">cases</span></div>
+        <div class="split"><span>Coverage of Johor's expected TB</span><b id="h-pct">–</b></div>
+      </div>
+      <div class="cta" style="margin-top:14px"><a class="btn primary" style="width:100%;justify-content:center" href="explore.html#planner">Choose your own sites →</a></div>
+    </div>
+  </div>
+</header>
+
+<div class="strip"><div class="wrap">
+  <div class="cell"><div class="num" id="s-d">0</div><div class="lab">Johor districts mapped</div></div>
+  <div class="cell"><div class="num" id="s-y">0</div><div class="lab">years of bulletins read</div></div>
+  <div class="cell"><div class="num" id="s-f">0</div><div class="lab">clinics &amp; hospitals</div></div>
+  <div class="cell"><div class="num" id="s-m">0</div><div class="lab">TB cases possibly missed</div></div>
+</div></div>
+
+<section>
+  <div class="wrap">
+    <div class="banner reveal">
+      <div style="display:flex;gap:14px;align-items:center"><div class="ic">⌖</div>
+        <div><b>Which district needs attention first?</b><span>Click any district for its reported rate, expected rate, travel time and suggested action.</span></div></div>
+      <a class="btn primary" href="explore.html">Explore the map →</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true"><div class="track" id="mq"></div></div>
+
+<section class="alt">
+  <div class="wrap">
+    <span class="eyebrow">Decision architecture</span>
+    <h2 class="reveal">How TB Gap Finder works.</h2>
+    <p class="sub reveal">Every district goes through five engines before we suggest an action. Each step is labelled real, estimated or exploratory.</p>
+    <div class="grid g2">
+      <div class="card reveal lift"><span class="tag">ENGINE 01</span><div class="icon">📄</div><h3>Bulletin counts</h3>
+        <p>TB notifications per district read from the Johor State Health Department's weekly bulletins and checked against printed state totals.</p></div>
+      <div class="card reveal lift"><span class="tag">ENGINE 02</span><div class="icon">⚖️</div><h3>Steady rates (Score A)</h3>
+        <p>Empirical Bayes smoothing pulls small districts toward the Johor average so chance swings don't mislead the ranking.</p></div>
+      <div class="card reveal lift"><span class="tag">ENGINE 03</span><div class="icon">🧮</div><h3>Expected TB (Score B)</h3>
+        <p>WHO's national incidence estimate shared across districts by population and risk, giving the hidden gap: expected minus reported.</p></div>
+      <div class="card reveal lift"><span class="tag">ENGINE 04</span><div class="icon">🛣️</div><h3>Distance to care</h3>
+        <p>Population-weighted distance from every 1 km cell to the nearest of 399 clinics. Combined with the gap to find diagnostic deserts.</p></div>
+      <div class="card reveal lift"><span class="tag">ENGINE 05</span><div class="icon">🚐</div><h3>Unit siting</h3>
+        <p>A greedy optimiser places 1–5 portable X-ray units where they cover the most expected TB within 60 minutes. Or pick your own.</p></div>
+      <div class="card reveal lift"><span class="tag">CHECKS</span><div class="icon">✅</div><h3>Honest validation</h3>
+        <p>Forecast accuracy, better-than-chance and death-rate checks against rules fixed before analysis. Failures are reported too.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Current findings</span>
+    <h2 class="reveal">What the data says right now.</h2>
+    <p class="sub reveal">Highlights from the latest data. Estimates are labelled as such.</p>
+    <div class="grid g3" id="findings"></div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap center">
+    <span class="eyebrow">Built for Johor</span>
+    <h2 class="reveal">Open data, open method.</h2>
+    <p class="sub reveal">Johor State Health Department bulletins · DOSM population · WHO TB estimates · WorldPop · OpenStreetMap · geoBoundaries.</p>
+    <div class="cta" style="justify-content:center"><a class="btn primary" href="method.html">Read the methodology →</a><a class="btn" href="explore.html#planner">Plan units</a></div>
+  </div>
+</section>
+
+<footer><div class="wrap">TB Gap Finder · Kow Kang, Rachel Lee Yi Wen · Travel times are approximate (straight-line, 40 km/h); clustering is exploratory. Not a clinical tool.</div></footer>
+
+<script src="assets/common.js"></script>
+<script>
+TB.nav("home"); TB.reveal();
+const words = ["10 districts", "Empirical Bayes", "WHO estimates", "399 clinics", "60-minute reach", "Pre-registered", "Every result reported"];
+document.getElementById("mq").innerHTML = [...words, ...words].map((w) => `<span>${w}</span><span><i>•</i></span>`).join("");
+TB.load().then(({ site }) => {
+  const d = site.districts, sum = (k) => d.reduce((a, r) => a + (r[k] || 0), 0);
+  const cases = sum("cases"), exp = sum("expected_cases");
+  document.getElementById("h-year").textContent = site.year;
+  document.getElementById("h-rep").textContent = cases.toLocaleString();
+  document.getElementById("h-exp").textContent = Math.round(exp).toLocaleString();
+  const upd = () => {
+    const n = +document.getElementById("u").value, r = site.siting.find((x) => x.version === "expected_tb" && x.n_units === n);
+    document.getElementById("u-val").textContent = n;
+    if (r) { TB.count(document.getElementById("h-cov"), r.covered_expected_cases, 0, 500); document.getElementById("h-pct").textContent = r.covered_expected_pct.toFixed(1) + "%"; }
+  };
+  document.getElementById("u").oninput = upd; upd();
+  const once = (id, v) => TB.count(document.getElementById(id), v, 0, 1600);
+  once("s-d", d.length); once("s-y", site.trend.years.length); once("s-f", site.facilities.length); once("s-m", Math.max(0, exp - cases));
+  const top = [...d].sort((a, b) => b.smoothed_rate - a.smoothed_rate)[0];
+  const desert = d.filter((r) => r.desert_level === "strong").map((r) => r.district);
+  const deaths = site.deaths.map((r) => ({ ...r, ratio: r.deaths / r.cases })).sort((a, b) => b.ratio - a.ratio);
+  const pooled = site.deaths.reduce((a, r) => a + r.deaths, 0) / site.deaths.reduce((a, r) => a + r.cases, 0);
+  const cards = [
+    ["real", "REAL DATA", "Highest reported rate", top.district, `${TB.fmt(top.smoothed_rate)} cases per 100,000 people (${site.year}).`],
+    ["est", "ESTIMATED", "Strongest diagnostic desert", desert.join(", ") || "None", "Low reported TB, a large hidden gap and long travel at once: first candidate for a portable X-ray unit."],
+    ["real", "REAL DATA", "Highest TB death ratio", `${deaths[0].district} & ${deaths[1].district}`,
+     `${(deaths[0].ratio * 100).toFixed(1)} and ${(deaths[1].ratio * 100).toFixed(1)} deaths per 100 cases vs ${(pooled * 100).toFixed(1)} Johor average (2014–2017): a sign of late diagnosis.`],
+  ];
+  document.getElementById("findings").innerHTML = cards.map(([c, b, k, v, s]) =>
+    `<div class="card reveal lift"><span class="badge ${c}">${b}</span><h3>${k}</h3><div class="stat"><div class="v" style="font-size:1.7rem;color:var(--brand)">${v}</div></div><p style="margin-top:6px">${s}</p></div>`).join("");
+  TB.reveal();
+}).catch((e) => console.error(e));
+</script>
+</body>
+</html>

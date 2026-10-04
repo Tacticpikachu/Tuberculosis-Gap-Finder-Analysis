@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+data/raw/*.tif
+data/raw/*.tiff
+
+# A3: all weekly bulletins total >100 MB; only the selected yearly PDFs are committed
+data/raw/bulletins_all/
+dist/
+.vercel/

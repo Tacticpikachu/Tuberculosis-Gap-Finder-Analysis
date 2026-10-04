@@ -1,0 +1,101 @@
+code,year,pop,source
+BP,2014,431098.0,WorldPop 1km mys_ppp_2014_1km_Aggregated.tif
+JB,2014,1561976.5,WorldPop 1km mys_ppp_2014_1km_Aggregated.tif
+KG,2014,302623.25,WorldPop 1km mys_ppp_2014_1km_Aggregated.tif
+KJ,2014,262973.40625,WorldPop 1km mys_ppp_2014_1km_Aggregated.tif
+KT,2014,183428.90625,WorldPop 1km mys_ppp_2014_1km_Aggregated.tif
+LG,2014,129399.640625,WorldPop 1km mys_ppp_2014_1km_Aggregated.tif
+MG,2014,67934.3671875,WorldPop 1km mys_ppp_2014_1km_Aggregated.tif
+MR,2014,256492.078125,WorldPop 1km mys_ppp_2014_1km_Aggregated.tif
+PN,2014,146366.96875,WorldPop 1km mys_ppp_2014_1km_Aggregated.tif
+ST,2014,185656.078125,WorldPop 1km mys_ppp_2014_1km_Aggregated.tif
+BP,2015,438675.46875,WorldPop 1km mys_ppp_2015_1km_Aggregated.tif
+JB,2015,1620047.875,WorldPop 1km mys_ppp_2015_1km_Aggregated.tif
+KG,2015,306593.28125,WorldPop 1km mys_ppp_2015_1km_Aggregated.tif
+KJ,2015,275209.40625,WorldPop 1km mys_ppp_2015_1km_Aggregated.tif
+KT,2015,183131.75,WorldPop 1km mys_ppp_2015_1km_Aggregated.tif
+LG,2015,131013.046875,WorldPop 1km mys_ppp_2015_1km_Aggregated.tif
+MG,2015,68015.0546875,WorldPop 1km mys_ppp_2015_1km_Aggregated.tif
+MR,2015,259520.390625,WorldPop 1km mys_ppp_2015_1km_Aggregated.tif
+PN,2015,146960.75,WorldPop 1km mys_ppp_2015_1km_Aggregated.tif
+ST,2015,186191.1875,WorldPop 1km mys_ppp_2015_1km_Aggregated.tif
+BP,2016,446541.5625,WorldPop 1km mys_ppp_2016_1km_Aggregated.tif
+JB,2016,1680916.25,WorldPop 1km mys_ppp_2016_1km_Aggregated.tif
+KG,2016,310368.96875,WorldPop 1km mys_ppp_2016_1km_Aggregated.tif
+KJ,2016,287707.4375,WorldPop 1km mys_ppp_2016_1km_Aggregated.tif
+KT,2016,182924.96875,WorldPop 1km mys_ppp_2016_1km_Aggregated.tif
+LG,2016,132268.6875,WorldPop 1km mys_ppp_2016_1km_Aggregated.tif
+MG,2016,68201.78125,WorldPop 1km mys_ppp_2016_1km_Aggregated.tif
+MR,2016,262748.53125,WorldPop 1km mys_ppp_2016_1km_Aggregated.tif
+PN,2016,147248.875,WorldPop 1km mys_ppp_2016_1km_Aggregated.tif
+ST,2016,186832.46875,WorldPop 1km mys_ppp_2016_1km_Aggregated.tif
+BP,2017,454480.875,WorldPop 1km mys_ppp_2017_1km_Aggregated.tif
+JB,2017,1744072.125,WorldPop 1km mys_ppp_2017_1km_Aggregated.tif
+KG,2017,314234.6875,WorldPop 1km mys_ppp_2017_1km_Aggregated.tif
+KJ,2017,300627.09375,WorldPop 1km mys_ppp_2017_1km_Aggregated.tif
+KT,2017,182538.59375,WorldPop 1km mys_ppp_2017_1km_Aggregated.tif
+LG,2017,133636.125,WorldPop 1km mys_ppp_2017_1km_Aggregated.tif
+MG,2017,68414.328125,WorldPop 1km mys_ppp_2017_1km_Aggregated.tif
+MR,2017,266072.9375,WorldPop 1km mys_ppp_2017_1km_Aggregated.tif
+PN,2017,147888.265625,WorldPop 1km mys_ppp_2017_1km_Aggregated.tif
+ST,2017,187370.125,WorldPop 1km mys_ppp_2017_1km_Aggregated.tif
+BP,2020,495300.0,DOSM population_district
+JB,2020,1711200.0,DOSM population_district
+KG,2020,323800.0,DOSM population_district
+KJ,2020,329500.0,DOSM population_district
+KT,2020,222400.0,DOSM population_district
+LG,2020,163400.0,DOSM population_district
+MG,2020,78200.0,DOSM population_district
+MR,2020,314800.0,DOSM population_district
+PN,2020,173300.0,DOSM population_district
+ST,2020,197800.0,DOSM population_district
+BP,2021,497200.0,DOSM population_district
+JB,2021,1715400.0,DOSM population_district
+KG,2021,325300.0,DOSM population_district
+KJ,2021,328200.0,DOSM population_district
+KT,2021,223600.0,DOSM population_district
+LG,2021,164000.0,DOSM population_district
+MG,2021,78800.0,DOSM population_district
+MR,2021,315800.0,DOSM population_district
+PN,2021,174200.0,DOSM population_district
+ST,2021,197400.0,DOSM population_district
+BP,2022,497500.0,DOSM population_district
+JB,2022,1723700.0,DOSM population_district
+KG,2022,323500.0,DOSM population_district
+KJ,2022,329200.0,DOSM population_district
+KT,2022,224900.0,DOSM population_district
+LG,2022,164600.0,DOSM population_district
+MG,2022,79100.0,DOSM population_district
+MR,2022,314000.0,DOSM population_district
+PN,2022,173600.0,DOSM population_district
+ST,2022,198200.0,DOSM population_district
+BP,2023,504000.0,DOSM population_district
+JB,2023,1761600.0,DOSM population_district
+KG,2023,328700.0,DOSM population_district
+KJ,2023,340300.0,DOSM population_district
+KT,2023,229300.0,DOSM population_district
+LG,2023,167100.0,DOSM population_district
+MG,2023,80100.0,DOSM population_district
+MR,2023,318700.0,DOSM population_district
+PN,2023,175800.0,DOSM population_district
+ST,2023,201600.0,DOSM population_district
+BP,2024,510100.0,DOSM population_district
+JB,2024,1799100.0,DOSM population_district
+KG,2024,333700.0,DOSM population_district
+KJ,2024,351300.0,DOSM population_district
+KT,2024,233500.0,DOSM population_district
+LG,2024,169400.0,DOSM population_district
+MG,2024,81000.0,DOSM population_district
+MR,2024,323200.0,DOSM population_district
+PN,2024,177900.0,DOSM population_district
+ST,2024,205100.0,DOSM population_district
+BP,2025,511800.0,DOSM population_district
+JB,2025,1814400.0,DOSM population_district
+KG,2025,335200.0,DOSM population_district
+KJ,2025,353000.0,DOSM population_district
+KT,2025,234700.0,DOSM population_district
+LG,2025,169200.0,DOSM population_district
+MG,2025,81400.0,DOSM population_district
+MR,2025,323900.0,DOSM population_district
+PN,2025,177900.0,DOSM population_district
+ST,2025,204300.0,DOSM population_district
