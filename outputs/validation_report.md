@@ -52,8 +52,12 @@ If the 3 picks were random each round, hits per round follow a hypergeometric di
 convolution of the per-round distributions; we report P(total hits ≥ observed).
 
 ### 2.5 V4 — death check
-Funnel plot of TB deaths per notified case by state with 95% and 99.8% binomial control limits;
-states above the 95% limit are flagged. Requires `data/raw/tb_state_year.csv`.
+Funnel plot of TB deaths per notified case with 95% and 99.8% binomial control limits; units above
+the 95% limit are flagged. Planned by state; state data could not be obtained, so it was run on
+Johor's 10 districts using the bulletins' cumulative TB death row (2014-2017; logged deviation;
+district death sums matched the printed state totals). By hand: for each district divide deaths by
+notifications, plot against notifications, draw the Johor average with limits
+p0 ± z·sqrt(p0(1−p0)/n) (z = 1.96 and 3.09), and flag points above the upper 95% line.
 
 ## 3. Results
 
@@ -62,7 +66,7 @@ states above the 95% limit are flagged. Requires `data/raw/tb_state_year.csv`.
 | V1 Data accuracy | Not performed (team decision); extraction cross-check: district sums = state totals in 6/6 bulletins | 0 mismatches | not completed |
 | V2 Forecast accuracy | AUC 0.60 (95% CI 0.40–0.78); sensitivity 0.50 (0.20–0.78); specificity 0.79; PPV 0.50; NPV 0.79; skill −0.003 (−0.07 to 0.07); McNemar 0 vs 2 discordant, p = 0.50 | AUC CI lower > 0.5; sens ≥ 0.67; skill > 0 | **FAIL** |
 | V3 Better than chance | 6 hits in 4 rounds; P(≥ 6) = 0.087 | report p | reported |
-| V4 Death check | not run (state-level deaths not yet obtained) | flag > 95% limit | not completed |
+| V4 Death check (deviation: by district) | Johor districts, 2014-2017: pooled 0.016 deaths per notified case; above the 95% limit: **Kluang** (28/518 = 0.054) and **Tangkak** (19/210 = 0.090) | flag > 95% limit | 2 districts flagged |
 | V5–V10 | not completed (time) | — | — |
 
 Baseline for comparison: AUC 0.66, sensitivity 0.58 (7 of 12 hotspots found).
@@ -83,6 +87,6 @@ the log, as the plan requires all results to be reported.
 1. Obtain the missing week-52 bulletins for 2018–2022: this adds five full-year pairs that use
    DOSM population directly.
 2. Use full-year counts only for V2 (would be a logged deviation).
-3. Complete V1 (blind re-entry of 20 values) and V4 (state deaths by tier) before the pitch.
+3. Complete V1 (blind re-entry of 20 values) and the state-level V4 (for H2) before the pitch.
 
 Pass rules were not changed, and no values were adjusted to obtain a pass.

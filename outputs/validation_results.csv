@@ -28,4 +28,6 @@ V2,mcnemar_b01_b10_p,0/2 p=0.500,
 V2,year_pairs,"[(2014, 2015), (2015, 2016), (2016, 2017), (2023, 2024)]",
 V2,verdict,"AUC CI lower>0.5, sens>=0.67, skill>0",FAIL
 V3,P(hits >= 6 | 4 rounds),0.08718926504629629,report
-V4,status,not run: data/raw/tb_state_year.csv missing,
+V4,level,"district (Johor bulletins 2014, 2015, 2016, 2017)",
+V4,states_above_95,"Kluang, Tangkak",H2 supported
+V4,pooled_death_ratio,0.016378662659654396,

@@ -96,9 +96,15 @@ def v3(d):
 
 
 def v4():
-    if not STATE.exists():
-        return None
-    s = pd.read_csv(STATE)
+    """State funnel if tb_state_year.csv exists; otherwise Johor districts from the bulletins (deviation)."""
+    if STATE.exists():
+        s, level = pd.read_csv(STATE), "state"
+    else:
+        tb = pd.read_csv(CLEAN / "tb_district_year.csv").dropna(subset=["deaths"])
+        if tb.empty:
+            return None
+        s = tb.rename(columns={"district": "state", "cases": "notifications"})
+        level = f"district (Johor bulletins {', '.join(map(str, sorted(tb.year.unique())))})"
     s = s.groupby("state", as_index=False)[["notifications", "deaths"]].sum()
     p0 = s["deaths"].sum() / s["notifications"].sum()
     n = np.linspace(max(1, s["notifications"].min() * 0.8), s["notifications"].max() * 1.1, 300)
@@ -114,9 +120,9 @@ def v4():
     ax.axhline(p0, color="grey", lw=1)
     for z, ls, lab in [(norm.ppf(0.975), "--", "95%"), (norm.ppf(0.999), ":", "99.8%")]:
         ax.plot(n, lim[z], "k" + ls, lw=1, label=lab)
-    ax.set(xlabel="TB notifications", ylabel="Deaths per notified case", title="V4 funnel plot")
+    ax.set(xlabel="TB notifications", ylabel="Deaths per notified case", title=f"V4 funnel plot by {level}")
     ax.legend(); fig.tight_layout(); fig.savefig(OUT / "funnel.png", dpi=150); plt.close(fig)
-    return s, p0
+    return s, p0, level
 
 
 def plots(r):
@@ -170,8 +176,9 @@ def main():
     if v is None:
         rows.append({"test": "V4", "metric": "status", "value": "not run: data/raw/tb_state_year.csv missing", "pass": ""})
     else:
-        s, p0 = v
+        s, p0, level = v
         flagged = s.loc[s["above_95"], "state"].tolist()
+        rows.append({"test": "V4", "metric": "level", "value": level, "pass": ""})
         rows.append({"test": "V4", "metric": "states_above_95", "value": ", ".join(flagged) or "none",
                      "pass": "H2 supported" if flagged else "H2 not supported"})
         rows.append({"test": "V4", "metric": "pooled_death_ratio", "value": p0, "pass": ""})
@@ -193,7 +200,7 @@ def main():
                   f"{'; includes partial year(s)' if r['partial'] else ''} | {'PASS' if r['pass'] else 'FAIL'} |")
         md.append(f"| V3 Better than chance | {hits} hits over {k} round(s); P = {p:.3f} | reported |")
     md.append("| V4 Death check | " + ("not run: data/raw/tb_state_year.csv missing | - |" if v is None else
-              f"flagged above 95%: {', '.join(flagged) or 'none'} | reported |"))
+              f"by {level}; pooled deaths/case {p0:.3f}; flagged above 95%: {', '.join(flagged) or 'none'} | reported |"))
     for t in ["V5 Face validity", "V6 Cost model verification", "V7 Cost robustness",
               "V8 Siting robustness", "V9 Siting verification", "V10 Moran stability"]:
         md.append(f"| {t} | not completed (time) | - |")

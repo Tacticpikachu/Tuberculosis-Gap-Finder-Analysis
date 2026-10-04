@@ -25,11 +25,12 @@ OUT = CLEAN / "tb_district_year.csv"
 HEADER_ALIASES = {"TG": "LG", "SG": "ST"}
 TOTAL_HEADERS = {"STATE", "JOHOR", "JOHORE"}
 TB_ROW = re.compile(r"^\s*\d+\.?\s*TUBERCULOSIS\s*\(all forms\)\s*(.*)$", re.I)
+DEATH_ROW = re.compile(r"^\s*(?:\d+\.?\s*)?TUBERCULOSIS\s+DEATH\s*(.*)$", re.I)
 NUM = re.compile(r"\d[\d,]*")
 
 
 def find_table(pdf, codes):
-    """Return (page_no, header_codes, values) for the cumulative TB row, or None."""
+    """Return (page_no, header_codes, values, death_values or None) for the cumulative TB row."""
     for i, page in enumerate(pdf.pages):
         text = page.extract_text() or ""
         if "CUMULATIVE" not in text.upper():
@@ -48,7 +49,14 @@ def find_table(pdf, codes):
                 if len(values) != len(header):
                     raise ValueError(f"page {i + 1}: {len(values)} numbers for {len(header)} "
                                      f"columns in line: {line!r}")
-                return i + 1, header, values
+                deaths = None
+                for later in lines[lines.index(line) + 1:]:
+                    d = DEATH_ROW.match(later)
+                    if d:
+                        dv = [int(v.replace(",", "")) for v in NUM.findall(d.group(1))]
+                        deaths = dv if len(dv) == len(header) else None
+                        break
+                return i + 1, header, values, deaths
     return None
 
 
@@ -72,15 +80,18 @@ def main():
         if not found:
             problems.append(f"{year}: cumulative TB row not found in {path.name}")
             continue
-        page, header, values = found
+        page, header, values, deaths = found
         vals = dict(zip(header, values))
+        dvals = dict(zip(header, deaths)) if deaths else {}
+        if deaths and sum(dvals[c] for c in codes) != next(dvals[h] for h in header if h in TOTAL_HEADERS):
+            problems.append(f"{year}: TB death district sum != state total")
         total = next(vals[h] for h in header if h in TOTAL_HEADERS)
         dsum = sum(vals[c] for c in codes)
         check = "ok" if dsum == total else f"MISMATCH districts {dsum} vs state {total}"
         if check != "ok":
             problems.append(f"{year}: {check}")
         for c in lookup["code"]:
-            rows.append({"code": c, "year": year, "cases": vals[c], "bulletin_week": week,
+            rows.append({"code": c, "year": year, "cases": vals[c], "deaths": dvals.get(c), "bulletin_week": week,
                          "partial_year": week < 52, "source_file": path.name,
                          "original_name": b["original_name"], "page": page,
                          "state_total": total, "sum_check": check})
@@ -88,7 +99,7 @@ def main():
     if not rows:
         sys.exit("STOP: nothing extracted\n  " + "\n  ".join(problems))
     df = pd.DataFrame(rows).merge(lookup[["code", "district"]], on="code")
-    df = df[["code", "district", "year", "cases", "bulletin_week", "partial_year", "source_file",
+    df = df[["code", "district", "year", "cases", "deaths", "bulletin_week", "partial_year", "source_file",
              "original_name", "page", "state_total", "sum_check"]]
     df.to_csv(OUT, index=False)
 

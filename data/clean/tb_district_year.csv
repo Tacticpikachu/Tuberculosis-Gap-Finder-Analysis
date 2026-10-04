@@ -1,61 +1,61 @@
-code,district,year,cases,bulletin_week,partial_year,source_file,original_name,page,state_total,sum_check
-JB,Johor Bahru,2014,526,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
-KJ,Kulai,2014,99,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
-MR,Muar,2014,97,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
-LG,Tangkak,2014,34,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
-BP,Batu Pahat,2014,148,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
-KG,Kluang,2014,90,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
-ST,Segamat,2014,64,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
-PN,Pontian,2014,65,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
-KT,Kota Tinggi,2014,103,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
-MG,Mersing,2014,27,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
-JB,Johor Bahru,2015,1090,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
-KJ,Kulai,2015,164,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
-MR,Muar,2015,154,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
-LG,Tangkak,2015,86,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
-BP,Batu Pahat,2015,274,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
-KG,Kluang,2015,201,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
-ST,Segamat,2015,103,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
-PN,Pontian,2015,91,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
-KT,Kota Tinggi,2015,165,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
-MG,Mersing,2015,84,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
-JB,Johor Bahru,2016,840,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
-KJ,Kulai,2016,117,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
-MR,Muar,2016,110,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
-LG,Tangkak,2016,57,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
-BP,Batu Pahat,2016,166,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
-KG,Kluang,2016,146,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
-ST,Segamat,2016,78,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
-PN,Pontian,2016,67,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
-KT,Kota Tinggi,2016,118,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
-MG,Mersing,2016,39,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
-JB,Johor Bahru,2017,591,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
-KJ,Kulai,2017,75,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
-MR,Muar,2017,77,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
-LG,Tangkak,2017,33,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
-BP,Batu Pahat,2017,135,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
-KG,Kluang,2017,81,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
-ST,Segamat,2017,65,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
-PN,Pontian,2017,63,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
-KT,Kota Tinggi,2017,93,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
-MG,Mersing,2017,39,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
-JB,Johor Bahru,2023,1038,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
-KJ,Kulai,2023,140,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
-MR,Muar,2023,105,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
-LG,Tangkak,2023,57,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
-BP,Batu Pahat,2023,182,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
-KG,Kluang,2023,136,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
-ST,Segamat,2023,99,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
-PN,Pontian,2023,72,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
-KT,Kota Tinggi,2023,125,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
-MG,Mersing,2023,38,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
-JB,Johor Bahru,2024,318,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
-KJ,Kulai,2024,38,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
-MR,Muar,2024,47,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
-LG,Tangkak,2024,28,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
-BP,Batu Pahat,2024,71,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
-KG,Kluang,2024,62,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
-ST,Segamat,2024,37,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
-PN,Pontian,2024,33,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
-KT,Kota Tinggi,2024,40,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
-MG,Mersing,2024,17,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
+code,district,year,cases,deaths,bulletin_week,partial_year,source_file,original_name,page,state_total,sum_check
+JB,Johor Bahru,2014,526,0.0,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
+KJ,Kulai,2014,99,0.0,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
+MR,Muar,2014,97,0.0,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
+LG,Tangkak,2014,34,3.0,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
+BP,Batu Pahat,2014,148,0.0,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
+KG,Kluang,2014,90,8.0,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
+ST,Segamat,2014,64,0.0,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
+PN,Pontian,2014,65,0.0,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
+KT,Kota Tinggi,2014,103,0.0,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
+MG,Mersing,2014,27,0.0,31,True,johor_epid_W52_2014.pdf,Johor_EpidBulletin_2014_W31.pdf,4,1253,ok
+JB,Johor Bahru,2015,1090,0.0,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
+KJ,Kulai,2015,164,0.0,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
+MR,Muar,2015,154,2.0,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
+LG,Tangkak,2015,86,9.0,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
+BP,Batu Pahat,2015,274,2.0,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
+KG,Kluang,2015,201,15.0,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
+ST,Segamat,2015,103,0.0,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
+PN,Pontian,2015,91,5.0,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
+KT,Kota Tinggi,2015,165,0.0,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
+MG,Mersing,2015,84,0.0,52,False,johor_epid_W52_2015.pdf,Johor_EpidBulletin_2015_W52.pdf,4,2412,ok
+JB,Johor Bahru,2016,840,17.0,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
+KJ,Kulai,2016,117,5.0,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
+MR,Muar,2016,110,3.0,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
+LG,Tangkak,2016,57,4.0,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
+BP,Batu Pahat,2016,166,0.0,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
+KG,Kluang,2016,146,3.0,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
+ST,Segamat,2016,78,1.0,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
+PN,Pontian,2016,67,1.0,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
+KT,Kota Tinggi,2016,118,4.0,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
+MG,Mersing,2016,39,0.0,41,True,johor_epid_W52_2016.pdf,Johor_EpidBulletin_2016_W41.pdf,5,1738,ok
+JB,Johor Bahru,2017,591,11.0,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
+KJ,Kulai,2017,75,2.0,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
+MR,Muar,2017,77,1.0,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
+LG,Tangkak,2017,33,3.0,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
+BP,Batu Pahat,2017,135,1.0,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
+KG,Kluang,2017,81,2.0,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
+ST,Segamat,2017,65,0.0,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
+PN,Pontian,2017,63,1.0,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
+KT,Kota Tinggi,2017,93,6.0,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
+MG,Mersing,2017,39,0.0,31,True,johor_epid_W52_2017.pdf,Johor_EpidBulletin_2017_W31.pdf,5,1252,ok
+JB,Johor Bahru,2023,1038,,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
+KJ,Kulai,2023,140,,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
+MR,Muar,2023,105,,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
+LG,Tangkak,2023,57,,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
+BP,Batu Pahat,2023,182,,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
+KG,Kluang,2023,136,,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
+ST,Segamat,2023,99,,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
+PN,Pontian,2023,72,,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
+KT,Kota Tinggi,2023,125,,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
+MG,Mersing,2023,38,,52,False,johor_epid_W52_2023.pdf,Johor_EpidBulletin_2023_W52.pdf,3,1992,ok
+JB,Johor Bahru,2024,318,,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
+KJ,Kulai,2024,38,,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
+MR,Muar,2024,47,,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
+LG,Tangkak,2024,28,,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
+BP,Batu Pahat,2024,71,,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
+KG,Kluang,2024,62,,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
+ST,Segamat,2024,37,,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
+PN,Pontian,2024,33,,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
+KT,Kota Tinggi,2024,40,,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
+MG,Mersing,2024,17,,23,True,johor_epid_W52_2024.pdf,Johor_EpidBulletin_2024_W23.pdf,3,691,ok
