@@ -119,7 +119,12 @@ function renderPlan() {
   const ids = mode === "auto"
     ? S.siting.filter((r) => r.version === target && r.n_units <= n).sort((a, b) => a.n_units - b.n_units).map((r) => r.osm_id)
     : [...custom];
-  const c = coverOf(ids), tot = TOTAL_EXP(), pct = tot ? c.exp / tot * 100 : 0;
+  const c = coverOf(ids), tot = TOTAL_EXP();
+  if (mode === "auto") {  // show the analysis' exact 1 km results for recommended plans
+    const r = S.siting.find((x) => x.version === target && x.n_units === n);
+    if (r) { c.exp = r.covered_expected_cases; c.pop = r.covered_pop; }
+  }
+  const pct = tot ? c.exp / tot * 100 : 0;
   TB.count(document.getElementById("p-exp"), c.exp, 0, 600);
   document.getElementById("p-pop").textContent = Math.round(c.pop).toLocaleString();
   document.getElementById("p-pct").textContent = `${pct.toFixed(1)}% of Johor's expected TB · ${ids.length} unit${ids.length === 1 ? "" : "s"}`;
@@ -137,19 +142,19 @@ function renderPlan() {
   GRID.cells.forEach((cell, i) => {
     if (!c.covered[i]) return;
     const h = GRID.deg / 2;
-    L.rectangle([[cell[0] - h, cell[1] - h], [cell[0] + h, cell[1] + h]], { stroke: false, fillColor: "#2563eb", fillOpacity: Math.min(.55, .08 + cell[3] / 12) }).addTo(pLayer);
+    L.rectangle([[cell[0] - h, cell[1] - h], [cell[0] + h, cell[1] + h]], { stroke: false, fillColor: "#2f7a5f", fillOpacity: Math.min(.55, .08 + cell[3] / 12) }).addTo(pLayer);
   });
   const adds = marginal(ids);
   c.fac.forEach((f, i) => {
-    L.circle([f[4], f[5]], { radius: COVER() * 1000, color: "#7c3aed", weight: 1.5, fillOpacity: 0, dashArray: "6 6" }).addTo(pLayer);
-    L.marker([f[4], f[5]], { icon: L.divIcon({ className: "", html: `<div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;display:grid;place-items:center;font-weight:800;box-shadow:0 4px 12px rgba(37,99,235,.5);border:2px solid #fff">${i + 1}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] }) })
+    L.circle([f[4], f[5]], { radius: COVER() * 1000, color: "#c97f10", weight: 1.5, fillOpacity: 0, dashArray: "6 6" }).addTo(pLayer);
+    L.marker([f[4], f[5]], { icon: L.divIcon({ className: "", html: `<div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1c4a3a,#2f7a5f);color:#fff;display:grid;place-items:center;font-weight:800;box-shadow:0 4px 12px rgba(28,74,58,.45);border:2px solid #fff">${i + 1}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] }) })
       .bindTooltip(`<b>${f[1]}</b><br>${f[2]} · adds ${Math.round(adds[i])} expected TB`).addTo(pLayer);
   });
   document.getElementById("ptable").innerHTML = c.fac.map((f, i) => {
     const d = f[3] ? byCode(f[3]) : null;
     return `<tr><td>${i + 1}</td><td>${f[1]}</td><td>${f[2]}</td><td>${d ? d.district : "–"}</td><td>${Math.round(adds[i]).toLocaleString()}</td></tr>`;
   }).join("") || `<tr><td colspan="5" style="color:var(--muted)">No sites selected.</td></tr>`;
-  facLayer.eachLayer((m) => m.setStyle({ fillColor: custom.has(m.options.fid) ? "#2563eb" : "#94a3b8", radius: custom.has(m.options.fid) ? 6 : 3.5 }));
+  facLayer.eachLayer((m) => m.setStyle({ fillColor: custom.has(m.options.fid) ? "#1c4a3a" : "#a8a290", radius: custom.has(m.options.fid) ? 6 : 3.5 }));
   renderChips();
 }
 
@@ -170,7 +175,7 @@ function initPlanner() {
   window.addEventListener("themechange", () => { t.remove(); t = tiles(pmap); });
   const outline = L.geoJSON(GEO, { style: { color: "#64748b", weight: 1, fillOpacity: 0 } }).addTo(pmap);
   pmap.fitBounds(outline.getBounds());
-  facLayer = L.layerGroup(S.facilities.map((f) => L.circleMarker([f[4], f[5]], { fid: f[0], radius: 3.5, weight: 0, fillColor: "#94a3b8", fillOpacity: .9 })
+  facLayer = L.layerGroup(S.facilities.map((f) => L.circleMarker([f[4], f[5]], { fid: f[0], radius: 3.5, weight: 0, fillColor: "#a8a290", fillOpacity: .9 })
     .bindTooltip(`${f[1]} · ${f[2]}`).on("click", () => { if (mode !== "custom") setMode("custom"); toggle(f[0]); }))).addTo(pmap);
   document.getElementById("n").oninput = renderPlan;
   const seg = (a, b, fn) => { document.getElementById(a).onclick = () => fn(a); document.getElementById(b).onclick = () => fn(b); };

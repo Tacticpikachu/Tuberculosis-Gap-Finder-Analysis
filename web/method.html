@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Method · TB Gap Finder</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <link rel="stylesheet" href="assets/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%232563eb'/><text x='50' y='64' font-size='44' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'>TB</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%231c4a3a'/><text x='50' y='64' font-size='44' text-anchor='middle' fill='%23f6f4ea' font-family='Arial' font-weight='700'>TB</text></svg>">
 </head>
 <body>
 <nav class="nav" id="nav"></nav>
 <header class="hero" style="padding:72px 0 40px">
   <div class="blob b1"></div><div class="blob b2"></div>
   <div class="wrap">
-    <span class="eyebrow">Pre-registered · tag prereg-v1 · every result reported</span>
+    <span class="eyebrow">Methodology · pre-registered · tag prereg-v1</span>
     <h1 style="font-size:clamp(2rem,4.4vw,3.2rem)">How we <span class="grad">calculated it</span></h1>
     <p class="lead">From PDF bulletins to a deployment plan in eight steps. Scroll: each step animates as you reach it.</p>
   </div>
@@ -134,7 +134,7 @@ TB.load().then(({ site }) => {
   const rates = D.flatMap((d) => [d.raw_rate, d.smoothed_rate]), lo = Math.min(...rates) - 3, hi = Math.max(...rates) + 3;
   const pos = (v) => ((v - lo) / (hi - lo) * 100).toFixed(2) + "%";
   const m = D.reduce((a, d) => a + d.cases, 0) / D.reduce((a, d) => a + d.pop, 0) * 1e5;
-  document.getElementById("viz-eb").innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:8px"><span class="badge" style="background:#fde68a;color:#92400e">● raw</span> <span class="badge" style="background:#dbeafe;color:#1d4ed8">● smoothed</span> · line = Johor mean ${m.toFixed(1)} /100k</div>` +
+  document.getElementById("viz-eb").innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:8px"><span class="badge" style="background:var(--est);color:var(--est-ink)">● raw</span> <span class="badge" style="background:var(--real);color:var(--real-ink)">● smoothed</span> · line = Johor mean ${m.toFixed(1)} /100k</div>` +
     [...D].sort((a, b) => a.pop - b.pop).map((d) => `<div class="shrink"><span class="lab">${d.district}</span><div class="track"><span class="mean" style="left:${pos(m)}"></span>
       <span class="dot raw" style="left:${pos(d.raw_rate)}"></span><span class="dot eb" data-from="${pos(d.raw_rate)}" data-to="${pos(d.smoothed_rate)}" style="left:${pos(d.raw_rate)}"></span></div>
       <span style="width:120px;font-size:12px;color:var(--muted)">${d.raw_rate.toFixed(1)} → <b style="color:var(--ink)">${d.smoothed_rate.toFixed(1)}</b></span></div>`).join("") +
@@ -152,8 +152,8 @@ TB.load().then(({ site }) => {
   document.getElementById("viz-site").innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:6px">% of expected TB within 60 min, by number of units</div>` +
     [1, 2, 3, 4, 5].map((n) => { const a = sit.find((r) => r.version === "expected_tb" && r.n_units === n), b = sit.find((r) => r.version === "population_only" && r.n_units === n);
       return `<div class="shrink"><span class="lab">${n} unit${n > 1 ? "s" : ""}</span><div style="flex:1"><div class="bar" style="margin:2px 0"><span data-w="${a ? a.covered_expected_pct : 0}"></span></div>
-      <div class="bar" style="margin:2px 0"><span data-w="${b ? b.covered_expected_pct : 0}" style="background:#f97316"></span></div></div><b style="width:90px;text-align:right;font-size:12px">${a ? a.covered_expected_pct.toFixed(0) : "–"}% / ${b ? b.covered_expected_pct.toFixed(0) : "–"}%</b></div>`; }).join("") +
-    `<p style="font-size:12px;color:var(--muted);margin:8px 0 0"><span style="color:#2563eb">■</span> expected-TB target · <span style="color:#f97316">■</span> population target</p>`;
+      <div class="bar" style="margin:2px 0"><span data-w="${b ? b.covered_expected_pct : 0}" style="background:var(--accent)"></span></div></div><b style="width:90px;text-align:right;font-size:12px">${a ? a.covered_expected_pct.toFixed(0) : "–"}% / ${b ? b.covered_expected_pct.toFixed(0) : "–"}%</b></div>`; }).join("") +
+    `<p style="font-size:12px;color:var(--muted);margin:8px 0 0"><span style="color:var(--brand-2)">■</span> expected-TB target · <span style="color:var(--accent)">■</span> population target</p>`;
   // validation cards
   const V = site.validation, get = (t, m) => (V.find((r) => r.test === t && r.metric === m) || {});
   const v2 = get("V2", "verdict"), v3 = V.find((r) => r.test === "V3") || {}, v4 = get("V4", "states_above_95");
