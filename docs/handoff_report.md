@@ -158,6 +158,16 @@ Per district (2014–2017): ratio = deaths ÷ cases. Johor average p₀ = 0.016 
 **Tangkak 19/210 = 9.0 per 100; Kluang 28/518 = 5.4 per 100** — both flagged.
 Why it matters: TB is curable, so more deaths usually means late diagnosis. It is independent real-data support: **Kluang is flagged by both the estimate (3/3 desert) and the death records.** Deviation: planned by state (H2), run by district because state death data were blocked; H2 untested.
 
+### V11 — Deaths vs desert score (pre-registered addendum, confirmatory)
+Desert points recomputed for 2014–2017 and summed (0–12) per district, compared with deaths per case 2014–2017.
+**Spearman ρ = 0.03, p = 0.48** → technically meets the (lenient) rule ρ > 0, but there is **no meaningful correlation**.
+Districts with ≥ 6 points (Kluang, Kulai, Segamat) have **2.8 deaths per 100 cases vs 1.4** for the rest (about double).
+Kluang is consistent (9/12 points, 5.4 per 100); Segamat (8 points, 1 death) and Tangkak (3 points, 9.0 per 100) break the pattern.
+Plain words: "The strongest desert also loses many patients, and deserts as a group lose about twice as many, but across all ten districts the link is not clear."
+
+### V12 — Chest X-ray vs desert score (exploratory)
+"TB – CXR" row (cluster/outbreak table, 2014–2015 only; meaning uncertain). ρ = +0.23 — opposite of the expected direction. Reported only.
+
 ### V5–V10: not completed (time).
 
 ---

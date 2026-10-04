@@ -13,3 +13,10 @@ Run: 2026-10-04 18:17 MYT · script analysis/v_core.py
 | V8 Siting robustness | not completed (time) | - |
 | V9 Siting verification | not completed (time) | - |
 | V10 Moran stability | not completed (time) | - |
+
+## Desert validation (pre-registered addendum)
+
+| Test | Result | Verdict |
+|---|---|---|
+| V11 Deaths vs deserts | Spearman ρ = 0.03 (one-sided p = 0.482); deaths per 100 cases: 2.8 in districts with ≥ 6 points vs 1.4 below | PASS (direction only (p ≥ 0.05)) |
+| V12 Chest X-ray vs deserts (exploratory) | Spearman ρ = 0.23 (one-sided p = 0.748) | reported only |

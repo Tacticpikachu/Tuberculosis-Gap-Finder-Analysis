@@ -83,6 +83,21 @@ the log, as the plan requires all results to be reported.
   smoothing changes rates very little (C = 0.6–0.97), so the model and baseline make almost the
   same picks; (4) 2014–2017 population is modelled (WorldPop), not census-based.
 
+## 6. Desert validation (pre-registered addendum, commit 84c14cd)
+Registered in README before computing. Desert points recomputed for each year 2014–2017 (that year's Score A, WHO
+incidence for that year, Moran LH, same travel minutes), summed per district (0–12).
+
+| Test | Result | Rule | Verdict |
+|---|---|---|---|
+| V11 Deaths vs deserts | Spearman ρ = 0.03 (one-sided permutation p = 0.48). Deaths per 100 cases: 2.8 in districts with ≥ 6 points (Kluang, Kulai, Segamat) vs 1.4 in the other 7 | ρ > 0 | Technically PASS, but ρ ≈ 0: no meaningful correlation |
+| V12 Chest X-ray vs deserts (exploratory) | ρ = +0.23 (opposite of the expected negative direction; p = 0.75). The "TB – CXR" row (cluster/outbreak table, 2014–2015) is of uncertain meaning | none | reported only |
+
+Interpretation: the strongest desert, **Kluang (9/12 points), also has a high death ratio (5.4 per 100)**, and the
+desert group as a whole has about twice the death ratio of the rest. But the rank correlation across all ten districts is
+essentially zero, because Segamat scores high with almost no deaths (1 of 310) and Tangkak scores low with the highest
+death ratio (19 of 210). With 10 districts this test has low power; it neither confirms nor refutes the desert method.
+The pass rule (ρ > 0) was lenient; the honest reading is "no clear relationship, with Kluang consistent".
+
 ## 5. What would change the result (legitimately)
 1. Obtain the missing week-52 bulletins for 2018–2022: this adds five full-year pairs that use
    DOSM population directly.

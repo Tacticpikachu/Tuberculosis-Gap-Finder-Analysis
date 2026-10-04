@@ -1,0 +1,7 @@
+test,metric,value,pass
+V11,spearman_rho_points_vs_death_ratio,0.031065489845360162,PASS
+V11,one_sided_permutation_p,0.48185181481851813,direction only (p ≥ 0.05)
+V11,death_ratio_points_ge6,0.028059236165237724,"3 districts: Kluang, Kulai, Segamat"
+V11,death_ratio_points_lt6,0.013588979895755771,7 districts
+V12,spearman_rho_points_vs_cxr_rate,0.22732056912722473,exploratory
+V12,one_sided_permutation_p (rho<0),0.7482251774822518,exploratory
