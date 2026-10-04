@@ -124,14 +124,18 @@ def score_a(tb, pop):
 
 
 # ---------------------------------------------------------------- 2) Score B
+def blank_score_b(latest, pop_latest, reason):
+    print(f"  NOT COMPUTED: {reason}. Score B, gap, desert points and "
+          "TB-weighted siting are left blank (never filled with guesses).")
+    b = pop_latest[["code", "pop"]].assign(risk=np.nan, expected_cases=np.nan, expected_rate=np.nan)
+    b = b.merge(latest[["code", "smoothed_rate"]], on="code")
+    return b.assign(gap=np.nan), None
+
+
 def score_b(latest, pop_latest):
     absent = [p.relative_to(ROOT).as_posix() for p in (PARAMS, RISK) if not p.exists()]
     if absent:
-        print(f"  NOT COMPUTED: missing {absent}. Score B, gap, desert points and "
-              "TB-weighted siting are left blank (never filled with guesses).")
-        b = pop_latest[["code", "pop"]].assign(risk=np.nan, expected_cases=np.nan, expected_rate=np.nan)
-        b = b.merge(latest[["code", "smoothed_rate"]], on="code")
-        return b.assign(gap=np.nan), None
+        return blank_score_b(latest, pop_latest, f"missing {absent}")
     params = pd.read_csv(PARAMS, dtype=str)
     risk = pd.read_csv(RISK, dtype={"code": str, "factor": str})
     need_cols(params, ["parameter", "value"], PARAMS.name)
@@ -139,13 +143,15 @@ def score_b(latest, pop_latest):
     for name, df in [(PARAMS.name, params), (RISK.name, risk)]:
         ph = df[df.astype(str).apply(lambda col: col.str.contains("PLACEHOLDER", case=False)).any(axis=1)]
         if len(ph):
-            print(f"  PLACEHOLDER rows in {name} (skipped):")
-            print(ph.to_string(index=False))
+            print(f"  PLACEHOLDER rows in {name} (skipped): {len(ph)}")
+            key = "parameter" if "parameter" in df.columns else ["code", "factor"]
+            print("    " + ", ".join(ph[key].astype(str).agg("/".join, axis=1) if isinstance(key, list)
+                                     else ph[key].astype(str)))
             df.drop(ph.index, inplace=True)
 
     pv = params.set_index("parameter")["value"]
     if "who_incidence_per_100k" not in pv:
-        stop(f"{PARAMS.name} has no usable 'who_incidence_per_100k' row")
+        return blank_score_b(latest, pop_latest, f"{PARAMS.name} has no usable 'who_incidence_per_100k' row")
     who_rate = float(pv["who_incidence_per_100k"])
 
     risk["p"] = pd.to_numeric(risk["p"], errors="coerce")
@@ -156,7 +162,7 @@ def score_b(latest, pop_latest):
         print(f"  Factors without a usable rr_<factor> in parameters.csv (skipped): {no_rr}")
     risk = risk.dropna(subset=["rr"])
     if risk.empty:
-        stop("no usable risk-factor rows (need p and a matching rr_<factor>)")
+        return blank_score_b(latest, pop_latest, "no usable risk-factor rows (need p and a matching rr_<factor>)")
     print(f"  Factors used: {sorted(risk['factor'].unique())}; WHO incidence {who_rate}/100k")
 
     risk["term"] = 1 + risk["p"] * (risk["rr"] - 1)

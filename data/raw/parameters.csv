@@ -1,0 +1,7 @@
+parameter,value,source,notes
+who_incidence_per_100k,PLACEHOLDER,"WHO Global Tuberculosis Report 2024, Malaysia country profile: 'TB incidence (rate per 100 000 population)', year 2023 (best estimate)","Use the WHO ESTIMATE (includes undiagnosed TB), not the MOH notification rate. Search summaries disagreed (about 92-122), so read it from the WHO profile itself."
+rr_diabetes,PLACEHOLDER,"WHO Global TB Report 2024, technical appendix on TB determinants (risk-factor RRs) - cite the study WHO cites",Unverified search result: WHO uses about 1.5. Confirm and copy the exact value and citation.
+rr_smoking,PLACEHOLDER,"WHO Global TB Report 2024, technical appendix on TB determinants",Unverified search result: about 1.6. Confirm.
+rr_alcohol,PLACEHOLDER,"WHO Global TB Report 2024, technical appendix on TB determinants (alcohol use disorders)",Unverified search result: about 3.3. Confirm.
+rr_undernourishment,PLACEHOLDER,"WHO Global TB Report 2024, technical appendix on TB determinants",Unverified search result: about 3.2. Confirm.
+rr_hiv,PLACEHOLDER,"WHO Global TB Report 2024, technical appendix (HIV RR is country-specific)",WHO does not use one global HIV RR; leave PLACEHOLDER unless a Malaysia-specific value is found. Optional.
