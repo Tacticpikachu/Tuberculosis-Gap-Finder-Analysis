@@ -1,5 +1,5 @@
 # TB Gap Finder: pre-registered analysis plan
-Team: Kow Kang, Rachel Lee Yi Wen · Clinical advisor: None (no advisor as of now)
+Team: Kow Kang, Rachel Lee Yi Wen· Clinical advisor: None (no advisor as of now)
 Registered: 2026-10-04 16:28 MYT (UTC+08:00) · before any outcome data was analysed
 
 ## Research question
